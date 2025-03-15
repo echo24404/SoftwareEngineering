@@ -3,13 +3,13 @@ const path = require("path");
 const app = express();
 // Konfiguration der Template-Engine und des Views-Verzeichnisses
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../frontend/views"));
+app.set("views", path.join(__dirname, "../frontend/src/pages"));
 
 // Statische Dateien aus dem Frontend bereitstellen
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // Import und Verwendung der Index-Route
-const indexRoutes = require("./routes/index");
+const indexRoutes = require("./routes/homepageRoutes");
 app.use("/", indexRoutes);
 
 // Server starten

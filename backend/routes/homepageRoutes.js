@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.render("index", { title: "Willkommen in der WG-App" });
+    res.render("Homepage", { title: "Willkommen in der WG-App" });
 });
 
 module.exports = router;
