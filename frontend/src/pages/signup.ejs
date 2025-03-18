@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<body>
+<main>
+    <section class="flex-box">
+        <article class="flex-box-content">
+            <h2>Registrierung</h2>
+            <small class="info-user-input">* Pflichtfelder</small>
+            <form id="signup-form">
+                <label for="username">Benutzername*</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Passwort*</label>
+                <div class="toggle-container">
+                    <input type="password" id="signup-password" name="password" required>
+                </div>
+                <label for="confirm-password">Passwort bestätigen*</label>
+                <div class="toggle-container">
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <button type="submit">Registrieren</button>
+            </form>
+        </article>
+    </section>
+</main>
+<script src="/controllers/signupController.js"></script>
+<script src="/models/signupModel.js"></script>
+</body>
+</html>
