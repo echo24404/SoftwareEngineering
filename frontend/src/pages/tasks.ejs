@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>User Tasks</title>
+</head>
+<body>
+<h1>Tasks</h1>
+<ul id="task-list"></ul>
+<button id="add-task-btn">Add Task</button>
+
+<!--
+  Important: The order of scripts matters!
+  1) tasksModel.js
+  2) tasksController.js
+  3) tasks.js (the initializer)
+-->
+<script type="module" src="../../../backend/models/tasksModel.js"></script>
+<script type="module" src="../../../backend/controllers/tasksController.js"></script>
+<script type="module" src="../js/tasks.js"></script>
+</body>
+</html>
