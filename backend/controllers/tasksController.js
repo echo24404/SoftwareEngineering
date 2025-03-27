@@ -4,7 +4,7 @@
  * Manages the interaction between the TasksModel and the HTML(EJS) view.
  */
 
-import { TasksModel } from './tasksModel.js';
+import { TasksModel } from '../models/tasksModel.js';
 
 export class TasksController {
     /**
@@ -55,6 +55,21 @@ export class TasksController {
             }
 
             taskList.appendChild(li);
+        });
+    }
+
+    /**
+     * Sets up event listeners (e.g., for adding new tasks).
+     */
+    setupEventListeners() {
+        const addTaskBtn = document.getElementById('add-task-btn');
+
+        addTaskBtn.addEventListener('click', () => {
+            const title = prompt('Enter the task title:');
+            if (title) {
+                this.model.addTask(this.userId, { title, done: false });
+                this.renderTasks();
+            }
         });
     }
 }
