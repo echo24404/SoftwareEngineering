@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+// Body-Parser (für POST-Formulardaten)
+app.use(express.urlencoded({ extended: true }));
+
 // Statische Dateien (CSS etc.) ausgeben
 app.use(express.static(path.join(__dirname, "public/css")));
 
@@ -19,9 +22,6 @@ app.use("/", indexRoutes);
 // Import und Verwendung der neuen Tasks-Route
 const tasksRoutes = require("./routes/tasksRoutes");
 app.use("/tasks", tasksRoutes);
-
-// Body-Parser (für POST-Formulardaten)
-app.use(express.urlencoded({ extended: true }));
 
 // Server starten
 const PORT = process.env.PORT || 5000;
