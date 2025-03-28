@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <title><%= title %></title>
     <link rel="stylesheet" href="../../public/css/tasks.css" />
 </head>
 <body>
-<h1><%= title %></h1>
-<ul>
-    <% tasks.forEach((t, i) => { %>
-        <li>
-            <%= t.title %> - <%= t.done ? 'DONE' : 'NOT DONE' %>
-            <% if (!t.done) { %>
-                <form action="/tasks/done" method="POST">
-                    <input type="hidden" name="index" value="<%= i %>" />
-                    <button type="submit">Mark as done</button>
-                </form>
-            <% } %>
-        </li>
-    <% }) %>
-</ul>
+<div class="container">
+    <h1><%= title %></h1>
 
-<h2>Add Task</h2>
-<form action="/tasks/add" method="POST">
-    <input type="text" name="title" required />
-    <button type="submit">Add Task</button>
-</form>
+    <!-- Liste der Aufgaben -->
+    <ul class="task-list">
+        <% tasks.forEach((task, index) => { %>
+            <!-- Skippen, falls task null/undefined ist: -->
+            <% if (!task) { return; } %>
+
+            <li class="<%= task.done ? 'task-done' : '' %>">
+                <%= task.title %>
+                <% if (!task.done) { %>
+                    <form action="/tasks/done" method="POST" class="inline-form">
+                        <!-- Index ans Backend geben -->
+                        <input type="hidden" name="index" value="<%= index %>" />
+                        <button type="submit">Mark as done</button>
+                    </form>
+                <% } else { %>
+                    <span class="badge">DONE</span>
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>
+
+    <!-- Formular zum Hinzufügen einer neuen Aufgabe -->
+    <form action="/tasks/add" method="POST" class="add-task-form">
+        <label for="title">New Task:</label>
+        <input type="text" id="title" name="title" required />
+        <button type="submit">Add Task</button>
+    </form>
+</div>
 </body>
 </html>
