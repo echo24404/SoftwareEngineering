@@ -1,0 +1,9 @@
+{
+  "user1": [
+    { "title": "Clean the kitchen", "done": false },
+    { "title": "Vacuum the living room", "done": true }
+  ],
+  "user2": [
+    { "title": "Buy groceries", "done": false }
+  ]
+}
