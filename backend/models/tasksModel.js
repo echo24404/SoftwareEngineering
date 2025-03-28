@@ -7,13 +7,13 @@ const path = require("path");
 
 class TasksModel {
     constructor() {
-        // Pfad zur tasks.json
+        // Pfad zu data/tasks.json
         this.filePath = path.join(__dirname, "../data/tasks.json");
     }
 
     /**
      * Lädt alle Tasks aus der JSON-Datei.
-     * @returns {Object} tasksData
+     * @returns {Object}
      */
     loadAllTasks() {
         try {
@@ -26,7 +26,7 @@ class TasksModel {
     }
 
     /**
-     * Schreibt das übergebene Object in die tasks.json.
+     * Schreibt das übergebene Objekt in die tasks.json.
      * @param {Object} tasksData
      */
     saveAllTasks(tasksData) {
@@ -44,7 +44,7 @@ class TasksModel {
     /**
      * Gibt alle Tasks für einen bestimmten User zurück.
      * @param {string} userId
-     * @returns {Array} Array der Task-Objekte
+     * @returns {Array}
      */
     getTasksByUser(userId) {
         const allTasks = this.loadAllTasks();
@@ -68,7 +68,7 @@ class TasksModel {
     /**
      * Markiert eine Aufgabe als done.
      * @param {string} userId
-     * @param {number} taskIndex Index der Aufgabe im Array
+     * @param {number} taskIndex
      */
     markTaskDone(userId, taskIndex) {
         const allTasks = this.loadAllTasks();
