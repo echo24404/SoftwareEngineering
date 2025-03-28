@@ -1,9 +1,22 @@
 {
-  "user1": [
-    { "title": "Clean the kitchen", "done": false },
-    { "title": "Vacuum the living room", "done": true }
+  "1": [
+    {
+      "title": "Clean the kitchen",
+      "done": true
+    },
+    {
+      "title": "Vacuum the living room",
+      "done": true
+    },
+    {
+      "title": "b",
+      "done": true
+    }
   ],
-  "user2": [
-    { "title": "Buy groceries", "done": false }
+  "2": [
+    {
+      "title": "Buy groceries",
+      "done": false
+    }
   ]
 }
