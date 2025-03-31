@@ -1,12 +1,12 @@
 /**
- * @file tests/tasksModel.test.js
+ * @file tasksModel.test.js
  * Unit-Tests für das TasksModel.
  */
 const fs = require("fs");
 const path = require("path");
 const TasksModel = require("../../backend/models/tasksModel");
 
-// Um mögliche Nebeneffekte beim Schreiben in tasks.json zu vermeiden, mocken wir fs:
+// Um Dateizugriffe zu verhindern, mocken wir fs:
 jest.mock("fs");
 
 describe("TasksModel", () => {
@@ -14,17 +14,16 @@ describe("TasksModel", () => {
     let mockFilePath;
 
     beforeAll(() => {
-        // Wir erzwingen, dass filePath auf eine Test-JSON zeigt
         tasksModel = new TasksModel();
+        // Wir leiten den filePath auf eine Testdatei um
         mockFilePath = path.join(__dirname, "mockTasks.json");
         tasksModel.filePath = mockFilePath;
     });
 
     beforeEach(() => {
-        // Jest-Mocks zurücksetzen
+        // Vor jedem Test: Clear Mocks
         jest.clearAllMocks();
-
-        // Wir simulieren einen Dateiinhalt in mockTasks.json
+        // Default: Wir simulieren eine valide JSON-Datei
         fs.readFileSync.mockReturnValue(JSON.stringify({
             "1": [
                 { "title": "Clean the kitchen", "done": false }
@@ -35,59 +34,74 @@ describe("TasksModel", () => {
         }));
     });
 
-    test("should load all tasks from file", () => {
+    test("loadAllTasks() - should load valid JSON", () => {
         const result = tasksModel.loadAllTasks();
         expect(result).toEqual({
-            "1": [
-                { "title": "Clean the kitchen", "done": false }
-            ],
-            "2": [
-                { "title": "Buy groceries", "done": false }
-            ]
+            "1": [{ title: "Clean the kitchen", done: false }],
+            "2": [{ title: "Buy groceries", done: false }]
         });
-        // Prüfen, ob fs.readFileSync aufgerufen wurde
         expect(fs.readFileSync).toHaveBeenCalledWith(mockFilePath, "utf8");
     });
 
-    test("should return tasks for a specific user", () => {
-        const user1Tasks = tasksModel.getTasksByUser("1");
-        expect(user1Tasks).toEqual([{ "title": "Clean the kitchen", "done": false }]);
-
-        const user2Tasks = tasksModel.getTasksByUser("2");
-        expect(user2Tasks).toEqual([{ "title": "Buy groceries", "done": false }]);
-
-        // Falls ein unbekannter User, sollte leeres Array zurückkommen
-        const unknownUserTasks = tasksModel.getTasksByUser("999");
-        expect(unknownUserTasks).toEqual([]);
+    test("loadAllTasks() - should return {} on JSON parse error", () => {
+        fs.readFileSync.mockImplementation(() => {
+            throw new Error("File error");
+        });
+        const result = tasksModel.loadAllTasks();
+        expect(result).toEqual({});
     });
 
-    test("should add a task for a user", () => {
-        fs.writeFileSync.mockImplementation(() => {}); // Mock, um Fehler zu vermeiden
+    test("getTasksByUser() - should return tasks for existing user", () => {
+        const user1Tasks = tasksModel.getTasksByUser("1");
+        expect(user1Tasks).toEqual([{ title: "Clean the kitchen", done: false }]);
+    });
 
-        tasksModel.addTask("1", { title: "Testtask", done: false });
+    test("getTasksByUser() - should return [] for non-existing user", () => {
+        const unknown = tasksModel.getTasksByUser("999");
+        expect(unknown).toEqual([]);
+    });
 
-        // Nach addTask wird fs.readFileSync und fs.writeFileSync aufgerufen
-        expect(fs.readFileSync).toHaveBeenCalled();
+    test("addTask() - adds a task and writes file", () => {
+        fs.writeFileSync.mockImplementation(() => {}); // kein Fehler
+        tasksModel.addTask("1", { title: "Test Task", done: false });
+
+        // Prüfen, ob geschrieben wurde
         expect(fs.writeFileSync).toHaveBeenCalled();
 
-        // Prüfen, ob die Daten mit dem neuen Task geschrieben wurden
-        const [filePath, data] = fs.writeFileSync.mock.calls[0];
-        expect(filePath).toBe(mockFilePath);
+        // Was wurde geschrieben?
+        const [writtenPath, content] = fs.writeFileSync.mock.calls[0];
+        expect(writtenPath).toBe(mockFilePath);
 
-        const writtenJson = JSON.parse(data);
-        expect(writtenJson["1"].length).toBe(2);
-        expect(writtenJson["1"][1]).toEqual({ title: "Testtask", done: false });
+        const parsedContent = JSON.parse(content);
+        expect(parsedContent["1"]).toHaveLength(2);
+        expect(parsedContent["1"][1]).toEqual({ title: "Test Task", done: false });
     });
 
-    test("should mark a task as done", () => {
+    test("addTask() - should handle new user key", () => {
         fs.writeFileSync.mockImplementation(() => {});
+        tasksModel.addTask("3", { title: "New user", done: false });
 
-        // Index 0 in user "1" soll done=true werden
+        expect(fs.writeFileSync).toHaveBeenCalled();
+        const parsedContent = JSON.parse(fs.writeFileSync.mock.calls[0][1]);
+        expect(parsedContent["3"]).toEqual([{ title: "New user", done: false }]);
+    });
+
+    test("markTaskDone() - sets done=true for valid index", () => {
+        fs.writeFileSync.mockImplementation(() => {});
         tasksModel.markTaskDone("1", 0);
 
-        // writeFileSync wird aufgerufen
         expect(fs.writeFileSync).toHaveBeenCalled();
-        const writtenData = JSON.parse(fs.writeFileSync.mock.calls[0][1]);
-        expect(writtenData["1"][0].done).toBe(true);
+        const parsed = JSON.parse(fs.writeFileSync.mock.calls[0][1]);
+        expect(parsed["1"][0].done).toBe(true);
+    });
+
+    test("markTaskDone() - does nothing if index invalid", () => {
+        fs.writeFileSync.mockImplementation(() => {});
+        tasksModel.markTaskDone("1", 999);
+
+        // Es wurde zwar geschrieben, aber die Daten bleiben unverändert
+        expect(fs.writeFileSync).toHaveBeenCalled();
+        const parsed = JSON.parse(fs.writeFileSync.mock.calls[0][1]);
+        expect(parsed["1"][0].done).toBe(false); // war false
     });
 });
