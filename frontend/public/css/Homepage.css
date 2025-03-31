@@ -147,3 +147,17 @@ footer {
 .fade-in {
     animation: fadeIn 1s ease-in-out;
 }
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    main h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+}
