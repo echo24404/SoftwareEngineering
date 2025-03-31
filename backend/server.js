@@ -6,7 +6,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 // Statische Dateien (CSS etc.) ausgeben
-app.use(express.static(path.join(__dirname, "public/css")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Statische Dateien aus dem Frontend bereitstellen
 app.use(express.static(path.join(__dirname, "../frontend/public")));
