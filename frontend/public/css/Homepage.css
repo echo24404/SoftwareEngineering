@@ -118,15 +118,7 @@ section {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-/* Footer */
-footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-    position: relative;
-    margin-top: 2rem;
-}
+
 /* Utility Klassen */
 .container {
     max-width: 1200px;

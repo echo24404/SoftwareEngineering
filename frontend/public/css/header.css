@@ -1,0 +1,12 @@
+/* Header Styles */
+header {
+    background: linear-gradient(45deg, #333, #555);
+    color: #fff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+}
