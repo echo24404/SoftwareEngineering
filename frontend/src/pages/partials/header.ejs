@@ -1,4 +1,25 @@
-<!-- Dummy Header -->
+<% var cp = typeof currentPage !== 'undefined' ? currentPage : ''; %>
 <header>
-    <h2>Header-Platzhalter</h2>
+    <div class="header-container">
+        <h1><%= title %></h1>
+        <nav>
+            <ul>
+                <% if (cp !== 'homepage') { %>
+                    <li><a href="/homepage">Home</a></li>
+                <% } %>
+                <% if (cp !== 'calendar') { %>
+                    <li><a href="/calendar">Kalender</a></li>
+                <% } %>
+                <% if (cp !== 'timetable') { %>
+                    <li><a href="/timetable">Stundenplan</a></li>
+                <% } %>
+                <% if (cp !== 'task') { %>
+                    <li><a href="/task">Aufgaben</a></li>
+                <% } %>
+                <% if (cp !== 'shoppingList') { %>
+                    <li><a href="/shoppingList">Einkaufsliste</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
 </header>
