@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<%- include("partials/header") %>
 
 <main>
-    <h1>Willkommen in der WG-App</h1>
-    <p>Organisiere deine WG einfach und effizient!</p>
+    <section class="intro">
+        <h1>Willkommen in der WG-App</h1>
+        <p>
+            Diese App bietet dir alle wichtigen Tools für dein WG-Leben – von Kalendern über Stundenpläne bis zu Aufgaben und Einkaufsliste.
+        </p>
+    </section>
+
+    <section class="navigation">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#" title="Kalender (Platzhalter) – Fabio">Kalender</a></li>
+            <li><a href="#" title="Stundenplan (Platzhalter) – Fabio">Stundenplan</a></li>
+            <li><a href="#" title="Aufgaben (Platzhalter) – Mika">Aufgaben</a></li>
+            <li><a href="#" title="Einkaufsliste (Platzhalter) – Tim">Einkaufsliste</a></li>
+        </ul>
+    </section>
 </main>
 
+<%- include("partials/footer") %>
+<script src="/js/scripts.js"></script>
 </body>
 </html>
