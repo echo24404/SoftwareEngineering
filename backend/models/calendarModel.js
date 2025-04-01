@@ -33,3 +33,10 @@ exports.getUserById = (id) => {
     const users = exports.getUsers();
     return users.find(u => u.id === id);
 };
+
+exports.addEventToCalendar = (calendarId, userId, event) => {
+    const calendar = exports.getCalendarById(calendarId, userId);
+    if (!calendar) return false;
+    calendar.events.push(event);
+    return true;
+};

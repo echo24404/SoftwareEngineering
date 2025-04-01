@@ -23,4 +23,32 @@ exports.showUserCalendars = (req, res) => {
     res.render('calendarList', { userId, calendars });
 };
 
-e
+exports.showCalendar = (req, res) => {
+    const { userId, calendarId } = req.params;
+
+    const calendar = calendarModel.getCalendarById(calendarId, userId);
+    if (!calendar) return res.status(404).send('Kalender nicht gefunden');
+
+    const owner = calendarModel.getUserById(calendar.ownerId);
+    const allUsers = calendarModel.getUsers();
+    const sharedWith = calendar.sharedWith.map(id =>
+        allUsers.find(u => u.id === id)
+    ).filter(Boolean);
+
+    res.render('calendarView', {
+        calendar,
+        owner,
+        sharedWith
+    });
+};
+
+exports.addEvent = (req, res) => {
+    const { userId, calendarId } = req.params;
+    const { date, title } = req.body;
+
+    const success = calendarModel.addEventToCalendar(calendarId, userId, { date, title });
+
+    if (!success) return res.status(404).send('Kalender nicht gefunden');
+
+    res.redirect(`/calendar/${userId}/${calendarId}`);
+};
