@@ -23,3 +23,13 @@ exports.createCalendar = (ownerId, name, sharedWith = []) => {
 exports.getCalendarsForUser = (userId) => {
     return calendars[userId] || [];
 };
+
+exports.getCalendarById = (calendarId, userId) => {
+    const calendars = exports.getCalendarsForUser(userId);
+    return calendars.find(cal => cal.id === calendarId);
+};
+
+exports.getUserById = (id) => {
+    const users = exports.getUsers();
+    return users.find(u => u.id === id);
+};
