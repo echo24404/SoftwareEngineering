@@ -26,5 +26,18 @@
 <% } %>
 
 <a href="/my-calendars/<%= owner.id %>">← Zurück zur Übersicht</a>
+
+<h2>📝 Neuen Termin hinzufügen</h2>
+<form action="/calendar/<%= owner.id %>/<%= calendar.id %>/add-event" method="POST">
+    <label>Datum:</label>
+    <input type="date" name="date" required><br>
+
+    <label>Titel:</label>
+    <input type="text" name="title" required><br><br>
+
+    <button type="submit">+ Termin hinzufügen</button>
+</form>
+
 </body>
 </html>
+
