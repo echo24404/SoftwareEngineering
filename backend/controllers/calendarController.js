@@ -4,3 +4,22 @@ exports.showUserSelection = (req, res) => {
     const users = calendarModel.getUsers();
     res.render('selectUsers', { users });
 };
+
+exports.createCalendar = (req, res) => {
+    const { name, ownerId } = req.body;
+    let sharedWith = req.body.sharedWith || [];
+
+    if (!Array.isArray(sharedWith)) {
+        sharedWith = [sharedWith]; // falls nur 1 Checkbox angeklickt wurde
+    }
+
+    calendarModel.createCalendar(ownerId, name, sharedWith);
+    res.redirect(`/my-calendars/${ownerId}`);
+};
+
+exports.showUserCalendars = (req, res) => {
+    const userId = req.params.userId;
+    const calendars = calendarModel.getCalendarsForUser(userId);
+    res.render('calendarList', { userId, calendars });
+};
+
