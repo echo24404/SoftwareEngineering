@@ -12,15 +12,6 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 const indexRoutes = require("./routes/homepageRoutes");
 app.use("/", indexRoutes);
 
-app.get("/signup", (req, res) => {
-    res.render("signup");
-});
-
-app.get("/login", (req, res) => {
-    res.render("login");
-});
-
-
 // Server starten
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
