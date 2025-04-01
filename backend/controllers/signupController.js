@@ -94,8 +94,8 @@ document.getElementById('signup-form').addEventListener('submit', async function
     }
 });
 
-const PASS_VISIBLE = "/assets/img/auth/iconPasswordVisible.png";
-const PASS_HIDDEN = "/assets/img/auth/iconPasswordHidden.png";
+const PASS_VISIBLE = "/frontend/public/img/auth/iconPasswordVisible.png";
+const PASS_HIDDEN = "/frontend/public/img/auth/iconPasswordHidden.png";
 
 /**
  * @description Toggles the visibility of specific elements based on the input ID and associated icon.

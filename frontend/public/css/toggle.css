@@ -1,0 +1,36 @@
+/** Toggle **/
+.toggle-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.toggle-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.toggle-item {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/** Response Layout **/
+@media (min-width: 601px) {
+    .toggle-item img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .toggle-item img {
+        width: 15px;
+        height: 15px;
+    }
+}
+
