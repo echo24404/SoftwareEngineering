@@ -45,29 +45,6 @@ const validateFields = (fields, res) => {
 };
 
 /**
- * @function validateRecipeOwnership
- * @description Validates whether the given user is the owner of the specified recipe. If not, an error response is sent.
- *
- * @param {Object} recipe - The recipe object containing ownership details.
- * @param {string} username - The username of the user attempting to perform an action on the recipe.
- * @param {Object} res - The Express response object used to send an error response if ownership validation fails.
- *
- * @example
- * const recipe = { id: 1, author: "john_doe" };
- * const isOwner = validateRecipeOwnership(recipe, "jane_doe", res);
- * // Sends an error response: "You do not have permission to perform this action on this recipe."
- *
- * @returns {boolean} Returns `true` if the user is the owner of the recipe; otherwise, `false`.
- */
-function validateRecipeOwnership(recipe, username, res) {
-    if (recipe.author !== username) {
-        sendError(res, "You do not have permission to perform this action on this recipe.", 403);
-        return false;
-    }
-    return true;
-}
-
-/**
  * @function removeImageFile
  * @description Removes an image file from the specified path. Sends an error response if the removal fails.
  *
@@ -96,6 +73,5 @@ function removeImageFile(imagePath, res) {
 module.exports = {
     sendError,
     validateFields,
-    validateRecipeOwnership,
-    removeImageFile,
+    removeImageFile
 };

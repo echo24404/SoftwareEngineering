@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+<%- include('./common/head', { title: 'Unauthorized', styles: [ ] }) %>
+<body>
+<%- include('./common/header', { showString: 'Login'})  %>
+<main>
+    <div class="background-image-container"></div>
+    <section class="flex-box">
+        <article class="flex-box-content">
+            <h2>Nicht autorisiert</h2>
+            <p>
+                Du bist nicht autorisiert, um die gewünschte Seite aufzurufen. Registriere dich, oder melde dich über die Startseite an.
+            </p>
+            <a href="/"><button>Zurück zur Startseite</button></a>
+        </article>
+    </section>
+</main>
+<%- include('./common/footer'); %>
+</body>
+</html>
