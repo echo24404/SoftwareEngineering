@@ -1,0 +1,105 @@
+footer {
+    background-color: #B1D0A4;
+    color: black;
+    padding: 0.5em;
+
+    section {
+        display: flex;
+        gap: 1em;
+        justify-content: space-evenly;
+    }
+}
+
+.footerGrid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.footerArticleRight {
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+#copyright {
+    font-size: 0.7em;
+}
+
+.ulNoStyle {
+    align-items: start;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    img:hover {
+        transform: scale(1.1);
+    }
+}
+
+.footerHeader {
+    margin-top: 0;
+    margin-bottom: 0.3em;
+}
+
+.ulGrid {
+    display: grid;
+    margin: 0;
+}
+
+/*Responsive Design*/
+@media (min-width: 1024px) {
+    .ulGrid {
+        gap: 1.5em;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas:
+            "item1 item2 item3 item4";
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1023px) {
+    .ulGrid {
+        gap: 0.5em;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "item1 item2"
+            "item3 item4";
+    }
+}
+
+@media (max-width: 600px) {
+    .ulGrid {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas:
+            "item1"
+            "item2"
+            "item3"
+            "item4";
+    }
+}
+
+/*Grid Layout for Responsive Design*/
+.ulGrid li:nth-child(1) {
+    grid-area: item1;
+}
+
+.ulGrid li:nth-child(2) {
+    grid-area: item2;
+}
+
+.ulGrid li:nth-child(3) {
+    grid-area: item3;
+}
+
+.ulGrid li:nth-child(4) {
+    grid-area: item4;
+}
