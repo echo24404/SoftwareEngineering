@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Meine Kalender</title></head>
+<body>
+<h1>📋 Deine Kalender</h1>
+
+<% if (calendars.length === 0) { %>
+    <p>Du hast noch keine Kalender erstellt.</p>
+<% } else { %>
+    <ul>
+        <% calendars.forEach(c => { %>
+            <li>
+                <a href="/calendar/<%= userId %>/<%= c.id %>"><%= c.name %></a>
+            </li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<a href="/">➕ Neuen Kalender erstellen</a>
+</body>
+</html>
