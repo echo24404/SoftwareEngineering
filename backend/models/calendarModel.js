@@ -7,3 +7,19 @@ exports.getUsers = () => {
     const data = fs.readFileSync(usersPath);
     return JSON.parse(data);
 };
+
+let calendars = {}; // key: userId → array of calendars
+
+exports.createCalendar = (ownerId, name, sharedWith = []) => {
+    const id = `cal-${Date.now()}`;
+    const newCalendar = { id, name, ownerId, sharedWith, events: [] };
+
+    if (!calendars[ownerId]) calendars[ownerId] = [];
+    calendars[ownerId].push(newCalendar);
+
+    return newCalendar;
+};
+
+exports.getCalendarsForUser = (userId) => {
+    return calendars[userId] || [];
+};

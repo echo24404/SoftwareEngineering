@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Benutzer auswählen</title></head>
+<body>
+<h1>Wähle Nutzer für deinen Kalender</h1>
+<form action="/create-calendar" method="POST">
+    <label>Kalendername:</label>
+    <input type="text" name="name" required><br/><br/>
+
+    <label>Teilen mit (Mehrfachauswahl möglich):</label><br/>
+    <% users.forEach(user => { %>
+        <input type="checkbox" name="sharedWith" value="<%= user.id %>"> <%= user.name %><br/>
+    <% }) %>
+
+    <input type="hidden" name="ownerId" value="u1"> <!-- Testnutzer -->
+    <br/><button type="submit">Kalender erstellen</button>
+</form>
+</body>
+</html>

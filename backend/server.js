@@ -11,5 +11,8 @@ app.get('/', (req, res) => {
     res.render('calender');
 });
 
+const calendarRoutes = require('./routes/calendarRoutes');
+app.use('/', calendarRoutes);
+
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server läuft auf http://localhost:${PORT}`));
