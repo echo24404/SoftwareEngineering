@@ -59,106 +59,10 @@ function existsUser(username) {
     return user !== undefined;
 }
 
-/**
- * @function addRecipeToUser
- * @description Adds a recipe to the list of recipes for a specific user.
- * @param {string} username - The username of the user to add the recipe to.
- * @param {number} recipeId - The ID of the recipe to be added to the user's recipe list.
- * @returns {boolean} `true` if the recipe was successfully added, otherwise `false`.
- */
-function addRecipeToUser(username, recipeId) {
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-
-    if (user && !user.recipes.includes(recipeId)) {
-        user.recipes.push(recipeId); // Add the recipeId to the user's recipes array
-        saveUsers(users); // Save the updated list of users
-        return true
-    }
-    return false
-}
-
-/**
- * @function removeRecipeFromUser
- * @description Removes a recipe from the list of recipes for a specific user.
- * @param {string} username - The username of the user to remove the recipe from.
- * @param {number} recipeId - The ID of the recipe to be removed from the user's recipe list.
- * @returns {boolean} `true` if the recipe was successfully removed, otherwise `false`.
- */
-function removeRecipeFromUser(username, recipeId) {
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-
-    if (user && user.recipes.includes(recipeId)) {
-        user.recipes = user.recipes.filter(id => id !== recipeId); // Remove the recipeId from the recipes array
-        saveUsers(users); // Save the updated list of users
-        return true
-    }
-    return false
-}
-
-/**
- * @function addFavouriteToUser
- * @description Adds a recipe to the user's list of favourites.
- * @param {string} username - The username of the user to add the favorite to.
- * @param {number} recipeId - The ID of the recipe to be added to the user's favourites.
- * @returns {boolean} `true` if the recipe was successfully added to the favourites, otherwise `false`.
- */
-function addFavouriteToUser(username, recipeId) {
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-
-    if (user && !user.favourites.includes(recipeId)) {
-        user.favourites.push(recipeId); // Add the recipeId to the user's favourites array
-        saveUsers(users); // Save the updated list of users
-        return true
-    }
-    return false
-}
-
-/**
- * @function removeFavouriteFromUser
- * @description Removes a recipe from the user's list of favourites.
- * @param {string} username - The username of the user to remove the favorite from.
- * @param {number} recipeId - The ID of the recipe to be removed from the user's favourites.
- * @returns {boolean} `true` if the recipe was successfully removed from the favourites, otherwise `false`.
- */
-function removeFavouriteFromUser(username, recipeId) {
-    const users = getUsers();
-    const user = users.find(u => u.username === username);
-
-    if (user && user.favourites.includes(recipeId)) {
-        user.favourites = user.favourites.filter(id => id !== recipeId); // Remove the recipeId from the favourites array
-        saveUsers(users); // Save the updated list of users
-        return true
-    }
-    return false
-}
-
-/**
- * @function removeFavouriteFromAllUsers
- * @description Removes a specific recipe from the favourites list of all users.
- * @param {number} recipeId - The ID of the recipe to be removed from the favourites of all users.
- * @returns {void}
- */
-function removeFavouriteFromAllUsers(recipeId) {
-    const users = getUsers();
-    users.forEach(user => {
-        if (user.favourites.includes(recipeId)) {
-            user.favourites = user.favourites.filter(id => id !== recipeId);
-        }
-    });
-    saveUsers(users);
-}
 
 module.exports = {
     getUsers,
     getUser,
     saveUser,
-    existsUser,
-    addRecipeToUser,
-    removeRecipeFromUser,
-    addFavouriteToUser,
-    removeFavouriteFromUser,
-    removeFavouriteFromAllUsers
+    existsUser
 };

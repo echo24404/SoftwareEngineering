@@ -36,7 +36,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', (req, res) => {
     const username = req.session?.username;
     if (username && existsUser(username)) {
-        return res.redirect('/dashboard'); // Redirect to the user dashboard if logged in
+        return res.redirect('/index'); // Redirect to the user dashboard if logged in
     }
     return res.status(200).render('index', { title: "Home Page" });
 });

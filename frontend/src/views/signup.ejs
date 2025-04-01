@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-<%- include('./common/head', { title: 'Registrieren', styles: [ '/public/css/signup.css', '/public/css/toggle.css', '/public/css/alertBox.css' ] }) %>
+<%- include('./common/head', { title: 'Registrieren', styles: [ 'public/css/signup.css', 'public/css/toggle.css', 'public/css/alertBox.css' ] }) %>
 <body>
 <%- include('./common/header', { showString: 'Login'})  %>
 <main>
@@ -11,7 +11,9 @@
             <small class="info-user-input">* Pflichtfelder</small>
             <form id="signup-form">
                 <label for="username">Benutzername*</label>
+                <br>
                 <input type="text" id="username" name="username" required>
+                <br>
                 <label for="password">Passwort*</label>
                 <div class="toggle-container">
                     <input type="password" id="signup-password" name="password" required>
@@ -20,6 +22,7 @@
                     </span>
                 </div>
                 <div id="password-strength"></div>
+                <br>
                 <label for="confirm-password">Passwort bestätigen*</label>
                 <div class="toggle-container">
                     <input type="password" id="confirm-password" name="confirm-password" required>
@@ -27,9 +30,13 @@
                         <img id="toggle-icon" src="public/img/auth/iconPasswordHidden.png" alt="">
                     </span>
                 </div>
+                <p>
                 <label for="file-input">Profilbild hochladen</label>
                 <%- include('./common/inputFile')  %>
+                </p>
+                <p>
                 <button type="submit">Registrieren</button>
+                </p>
             </form>
             <p>Hast du schon ein Konto? <a class="underline" href="/login">Anmelden</a></p>
         </article>
