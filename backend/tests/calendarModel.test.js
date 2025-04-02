@@ -48,3 +48,5 @@ describe('calendarModel', () => {
         expect(gefunden).not.toBeUndefined();
         expect(gefunden.name).toBe('Test A');
     });
+
+
