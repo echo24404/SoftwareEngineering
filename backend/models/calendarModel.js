@@ -44,3 +44,18 @@ exports.getCalendarsForUser = (userId) => {
     const calendars = loadCalendars();
     return calendars.filter(c => c.ownerId === userId);
 };
+
+exports.getCalendarById = (calendarId, userId) => {
+    const calendars = loadCalendars();
+    return calendars.find(c => c.id === calendarId && c.ownerId === userId);
+};
+
+exports.addEventToCalendar = (calendarId, userId, event) => {
+    const calendars = loadCalendars();
+    const calendar = calendars.find(c => c.id === calendarId && c.ownerId === userId);
+    if (!calendar) return false;
+
+    calendar.events.push(event);
+    saveCalendars(calendars);
+    return true;
+};
