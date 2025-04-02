@@ -1,0 +1,21 @@
+input[type="file"] {
+    display: none; /* Hides default file-input field */
+}
+
+.custom-file-upload {
+    display: inline-block;
+}
+
+.preview-pic {
+    max-width: 150px;
+    margin-top: 10px;
+    height: auto;
+    display: none;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.file-input-name {
+    font-size: 14px;
+    color: #666;
+}
