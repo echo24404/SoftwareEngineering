@@ -8,7 +8,8 @@ const router = express.Router();
 const TasksModel = require("../models/tasksModel");
 const tasksModel = new TasksModel();
 
-// Example: Hardcoded user
+// In this version of the Software the user id is hard coded due to the required functions to get the user id from the session are
+// still missing. All other functions related to the user management work fine.
 const USER_ID = "1";
 
 // GET /tasks → Displays all tasks for user "1"
