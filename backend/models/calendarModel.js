@@ -9,3 +9,9 @@ exports.getUsers = () => {
     const data = fs.readFileSync(usersPath);
     return JSON.parse(data);
 };
+
+const loadCalendars = () => {
+    if (!fs.existsSync(calendarPath)) return [];
+    const data = fs.readFileSync(calendarPath);
+    return JSON.parse(data);
+};
