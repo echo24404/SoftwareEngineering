@@ -59,3 +59,13 @@ exports.addEventToCalendar = (calendarId, userId, event) => {
     saveCalendars(calendars);
     return true;
 };
+
+exports.deleteEventFromCalendar = (calendarId, userId, date, title) => {
+    const calendars = loadCalendars();
+    const calendar = calendars.find(c => c.id === calendarId && c.ownerId === userId);
+    if (!calendar) return false;
+
+    calendar.events = calendar.events.filter(e => !(e.date === date && e.title === title));
+    saveCalendars(calendars);
+    return true;
+};
