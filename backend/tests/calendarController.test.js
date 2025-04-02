@@ -120,6 +120,18 @@ describe('calendarController', () => {
         const updated = calendarModel.getCalendarById(cal.id, 'u1');
         expect(updated.events.length).toBe(0);
     });
+
+    test('showCalendar gibt 404 zurück wenn Kalender nicht existiert', () => {
+        const req = { params: { userId: 'u404', calendarId: 'nichtda' }, query: {} };
+        const res = mockResponse();
+
+        calendarController.showCalendar(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith('Kalender nicht gefunden');
+    });
+
+
 });
 
 
