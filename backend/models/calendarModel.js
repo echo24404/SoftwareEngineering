@@ -15,3 +15,7 @@ const loadCalendars = () => {
     const data = fs.readFileSync(calendarPath);
     return JSON.parse(data);
 };
+
+const saveCalendars = (calendars) => {
+    fs.writeFileSync(calendarPath, JSON.stringify(calendars, null, 2));
+};
