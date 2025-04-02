@@ -49,4 +49,12 @@ describe('calendarModel', () => {
         expect(gefunden.name).toBe('Test A');
     });
 
+    test('getUsers liefert Benutzer aus users.json', () => {
+        const users = calendarModel.getUsers();
+        expect(users.length).toBeGreaterThan(0);
+        expect(users[0]).toHaveProperty('id');
+        expect(users[0]).toHaveProperty('name');
+    });
+});
+
 
