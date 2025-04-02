@@ -29,3 +29,22 @@ describe('calendarModel', () => {
         expect(neu.events.length).toBe(1);
         expect(neu.events[0].title).toBe('Testtermin');
     });
+
+    test('deleteEventFromCalendar entfernt Termin', () => {
+        const cal = calendarModel.createCalendar('u1', 'Mit Termin');
+        const event = { date: '2025-04-02', title: 'Testtermin' };
+        calendarModel.addEventToCalendar(cal.id, 'u1', event);
+
+        const deleted = calendarModel.deleteEventFromCalendar(cal.id, 'u1', '2025-04-02', 'Testtermin');
+        expect(deleted).toBe(true);
+
+        const neu = calendarModel.getCalendarById(cal.id, 'u1');
+        expect(neu.events.length).toBe(0);
+    });
+
+    test('getCalendarById gibt richtigen Kalender zurück', () => {
+        const cal = calendarModel.createCalendar('u1', 'Test A');
+        const gefunden = calendarModel.getCalendarById(cal.id, 'u1');
+        expect(gefunden).not.toBeUndefined();
+        expect(gefunden.name).toBe('Test A');
+    });
