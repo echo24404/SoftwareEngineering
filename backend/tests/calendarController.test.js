@@ -31,3 +31,12 @@ describe('calendarController', () => {
         }));
     });
 
+    test('createCalendar erstellt Kalender und leitet weiter', () => {
+        const req = {
+            body: {
+                name: 'ControllerTest',
+                ownerId: 'u1',
+                sharedWith: ['u2']
+            }
+        };
+
