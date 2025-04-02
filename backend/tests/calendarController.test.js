@@ -66,6 +66,24 @@ describe('calendarController', () => {
         });
     });
 
+    test('showCalendar rendert calendarView.ejs', () => {
+        const cal = calendarModel.createCalendar('u1', 'Einzelkalender', ['u2']);
+        const req = {
+            params: { userId: 'u1', calendarId: cal.id },
+            query: {}
+        };
+        const res = mockResponse();
+
+        calendarController.showCalendar(req, res);
+
+        expect(res.render).toHaveBeenCalledWith('calendarView', expect.objectContaining({
+            calendar: expect.any(Object),
+            owner: expect.any(Object),
+            sharedWith: expect.any(Array),
+            days: expect.any(Array)
+        }));
+    });
+
 
 
 
