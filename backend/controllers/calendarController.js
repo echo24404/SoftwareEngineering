@@ -25,7 +25,6 @@ exports.showUserCalendars = (req, res) => {
 
 exports.showCalendar = (req, res) => {
     const { userId, calendarId } = req.params;
-
     const calendar = calendarModel.getCalendarById(calendarId, userId);
     if (!calendar) return res.status(404).send('Kalender nicht gefunden');
 
@@ -35,12 +34,33 @@ exports.showCalendar = (req, res) => {
         allUsers.find(u => u.id === id)
     ).filter(Boolean);
 
+    // 📅 Monat und Jahr dynamisch über URL (Fallback: aktueller Monat)
+    const now = new Date();
+    const year = parseInt(req.query.year) || now.getFullYear();
+    const month = parseInt(req.query.month) || now.getMonth() + 1; // 1-basiert
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+    const days = Array.from({ length: daysInMonth }, (_, i) => {
+        const day = i + 1;
+        const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const events = calendar.events.filter(e => e.date === dateStr);
+        return { date: dateStr, events };
+    });
+
+    const monthName = new Date(year, month - 1, 1).toLocaleString('de-DE', { month: 'long', year: 'numeric' });
+
     res.render('calendarView', {
         calendar,
         owner,
-        sharedWith
+        sharedWith,
+        days,
+        month,
+        year,
+        monthName
     });
 };
+
 
 exports.addEvent = (req, res) => {
     const { userId, calendarId } = req.params;

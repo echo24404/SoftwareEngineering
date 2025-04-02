@@ -1,18 +1,15 @@
 const express = require('express');
 const path = require('path');
+const calendarRoutes = require('./routes/calendarRoutes');
 
 const app = express();
 
-// EJS Setup
+app.use(express.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../frontend/src/pages'));
 
-app.get('/', (req, res) => {
-    res.render('calender');
-});
-
-const calendarRoutes = require('./routes/calendarRoutes');
 app.use('/', calendarRoutes);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server läuft auf http://localhost:${PORT}`));
