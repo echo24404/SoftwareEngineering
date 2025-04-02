@@ -17,3 +17,15 @@ describe('calendarModel', () => {
         expect(alle.length).toBe(1);
         expect(alle[0].name).toBe('Testkalender');
     });
+
+    test('addEventToCalendar fügt Termin hinzu', () => {
+        const cal = calendarModel.createCalendar('u1', 'Mit Termin');
+        const event = { date: '2025-04-02', title: 'Testtermin' };
+
+        const added = calendarModel.addEventToCalendar(cal.id, 'u1', event);
+        expect(added).toBe(true);
+
+        const neu = calendarModel.getCalendarById(cal.id, 'u1');
+        expect(neu.events.length).toBe(1);
+        expect(neu.events[0].title).toBe('Testtermin');
+    });
