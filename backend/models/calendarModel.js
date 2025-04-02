@@ -39,3 +39,8 @@ exports.createCalendar = (ownerId, name, sharedWith = [], color = null) => {
     saveCalendars(calendars);
     return newCalendar;
 };
+
+exports.getCalendarsForUser = (userId) => {
+    const calendars = loadCalendars();
+    return calendars.filter(c => c.ownerId === userId);
+};
