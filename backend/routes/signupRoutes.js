@@ -1,26 +1,22 @@
 const express = require('express');
-const {saveUser, existsUser} = require("../utils/userData");
-const {hashPassword} = require("../utils/encryption");
+const { saveUser, existsUser } = require("../utils/userData");
+const { hashPassword } = require("../utils/encryption");
 const sessionManager = require('../session/sessionManager');
-const {uploadUser} = require('../utils/multerConfig');
-const {sendError, validateFields} = require("../utils/helper");
+const { uploadUser } = require('../utils/multerConfig');
+const { sendError, validateFields } = require("../utils/helper");
 const path = require("path");
 const fs = require("fs");
 const router = express.Router();
 
-/**
- * @route POST /api/register
- * @description Handles user registration by creating a new user account with a unique username.
- * @param {Object} req - The request object containing `username` and `password` in the body.
- * @param {Object} res - The response object.
- * @returns {Object} Returns a success message upon successful registration or an error message if the username already exists or input validation fails.
- */
+
+
+// POST /api/register → Handles user registration and creation
 router.post('/', uploadUser.single("image"), async (req, res) => {
     const jsonData = JSON.parse(req.body.data);
-    const {username, password} = jsonData;
+    const { username, password } = jsonData;
 
     // Validate input: both username and password are required
-    if (!validateFields({username, password}, res)) return;
+    if (!validateFields({ username, password }, res)) return;
 
     // Check if the username already exists
     if (existsUser(username)) {
@@ -55,7 +51,6 @@ router.post('/', uploadUser.single("image"), async (req, res) => {
         // Add the new user and save the updated list to storage
         await saveUser(newUser);  // Assuming saveUser() handles asynchronous behavior correctly
 
-
         // Store the username in the session
         sessionManager.storeUsernameInSession(req, username);
 
@@ -68,6 +63,11 @@ router.post('/', uploadUser.single("image"), async (req, res) => {
         // If saving the user failed
         return sendError(res, "Error while saving the user data.", 500);
     }
+});
+
+// GET /api/register → Displays the registration form (if needed, this could be a simple view render)
+router.get('/', (req, res) => {
+    res.render("register", { title: "Register User" });
 });
 
 module.exports = router;

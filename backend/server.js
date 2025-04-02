@@ -23,11 +23,11 @@ app.use("/", indexRoutes);
 const tasksRoutes = require("./routes/tasksRoutes");
 app.use("/tasks", tasksRoutes);
 
-const authRoutes = require("./routes/authRoutes");
-app.use('/auth', authRoutes);
+const authRoutes = require("./routes/loginRoutes");
+app.use('/signup', authRoutes);
 
-const registerRoutes = require('./routes/registerRoutes');
-app.use('/register', registerRoutes);
+const registerRoutes = require('./routes/signupRoutes');
+app.use('/login', registerRoutes);
 
 /**
  * @function jsonErrorHandlerMiddleware
