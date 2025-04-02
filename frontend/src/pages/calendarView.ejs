@@ -51,6 +51,25 @@
     <% }) %>
 </ul>
 
+<h2><%= monthName %></h2>
+
+<form method="GET" action="">
+    <label for="month">Monat:</label>
+    <select name="month" id="month">
+        <% for (let m = 1; m <= 12; m++) { %>
+            <option value="<%= m %>" <%= m === month ? "selected" : "" %>><%= new Date(0, m - 1).toLocaleString('de-DE', { month: 'long' }) %></option>
+        <% } %>
+    </select>
+
+    <label for="year">Jahr:</label>
+    <select name="year" id="year">
+        <% for (let y = year - 3; y <= year + 3; y++) { %>
+            <option value="<%= y %>" <%= y === year ? "selected" : "" %>><%= y %></option>
+        <% } %>
+    </select>
+
+    <button type="submit">📅 Anzeigen</button>
+</form>
 
 </body>
 </html>
