@@ -144,6 +144,19 @@ describe('calendarController', () => {
         expect(res.send).toHaveBeenCalledWith('Kalender nicht gefunden');
     });
 
+    test('deleteEvent gibt 404 zurück wenn Kalender nicht existiert', () => {
+        const req = {
+            params: { userId: 'u404', calendarId: 'falsch' },
+            body: { date: '2025-01-01', title: 'Nicht vorhanden' }
+        };
+        const res = mockResponse();
+
+        calendarController.deleteEvent(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith('Termin konnte nicht gelöscht werden');
+    });
+
 
 });
 
