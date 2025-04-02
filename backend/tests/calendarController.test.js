@@ -50,4 +50,22 @@ describe('calendarController', () => {
         expect(result[0].name).toBe('ControllerTest');
     });
 
+    test('showUserCalendars rendert calendarList.ejs', () => {
+        const userId = 'u1';
+        calendarModel.createCalendar(userId, 'Test1');
+        calendarModel.createCalendar(userId, 'Test2');
+
+        const req = { params: { userId } };
+        const res = mockResponse();
+
+        calendarController.showUserCalendars(req, res);
+
+        expect(res.render).toHaveBeenCalledWith('calendarList', {
+            userId,
+            calendars: expect.any(Array)
+        });
+    });
+
+
+
 
