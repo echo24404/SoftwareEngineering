@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Aufgaben</title>
+    <link rel="stylesheet" href="/css/tasks.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Meine Aufgaben</h1>
+
+    <!-- List of tasks -->
+    <ul class="task-list">
+        <% tasks.forEach((task, index) => { %>
+            <!-- Skip if task is null/undefined: -->
+            <% if (!task) { return; } %>
+
+            <li class="<%= task.done ? 'task-done' : '' %>">
+                <%= task.title %>
+                <% if (!task.done) { %>
+                    <form action="/tasks/done" method="POST" class="inline-form">
+                        <!-- Pass index to the backend -->
+                        <input type="hidden" name="index" value="<%= index %>" />
+                        <button type="submit">erledigen</button>
+                    </form>
+                <% } else { %>
+                    <span class="badge">erledigt</span>
+                <% } %>
+            </li>
+        <% }) %>
+    </ul>
+
+    <!-- Form to add a new task -->
+    <form action="/tasks/add" method="POST" class="add-task-form">
+        <label for="title">Neue Aufgabe:</label>
+        <input type="text" id="title" name="title" required />
+        <button type="submit">hinzufügen</button>
+    </form>
+</div>
+</body>
+</html>

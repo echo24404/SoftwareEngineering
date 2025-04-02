@@ -1,17 +1,28 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-// Konfiguration der Template-Engine und des Views-Verzeichnisses
+
+// Body-Parser (for POST form data)
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files (CSS, etc.)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Serve static files from the frontend
+app.use(express.static(path.join(__dirname, "../frontend/public")));
+
+// Configuration of the template engine and the views directory
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/src/pages"));
 
-// Statische Dateien aus dem Frontend bereitstellen
-app.use(express.static(path.join(__dirname, "../frontend/public")));
-
-// Import und Verwendung der Index-Route
+// Import and use the index route (example)
 const indexRoutes = require("./routes/homepageRoutes");
 app.use("/", indexRoutes);
 
-// Server starten
+// Import and use the new tasks route
+const tasksRoutes = require("./routes/tasksRoutes");
+app.use("/tasks", tasksRoutes);
+
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));

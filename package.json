@@ -1,13 +1,21 @@
 {
   "name": "softwareengineering",
   "version": "1.0.0",
-  "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "test": "jest --coverage",
+    "test:coverage": "jest --coverage --coverageThreshold '{\"global\":{\"branches\":80,\"functions\":80,\"lines\":80,\"statements\":80}}'"
   },
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.18.2"
+    "express": "^4.21.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
   }
 }
