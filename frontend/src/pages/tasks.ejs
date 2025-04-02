@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title><%= title %></title>
+    <title>Aufgaben</title>
     <link rel="stylesheet" href="/css/tasks.css" />
 </head>
 <body>
 <div class="container">
-    <h1><%= title %></h1>
+    <h1>Meine Aufgaben</h1>
 
     <!-- Liste der Aufgaben -->
     <ul class="task-list">
@@ -21,10 +21,10 @@
                     <form action="/tasks/done" method="POST" class="inline-form">
                         <!-- Index ans Backend geben -->
                         <input type="hidden" name="index" value="<%= index %>" />
-                        <button type="submit">Mark as done</button>
+                        <button type="submit">erledigen</button>
                     </form>
                 <% } else { %>
-                    <span class="badge">DONE</span>
+                    <span class="badge">erledigt</span>
                 <% } %>
             </li>
         <% }) %>
@@ -32,9 +32,9 @@
 
     <!-- Formular zum Hinzufügen einer neuen Aufgabe -->
     <form action="/tasks/add" method="POST" class="add-task-form">
-        <label for="title">New Task:</label>
+        <label for="title">Neue Aufgabe:</label>
         <input type="text" id="title" name="title" required />
-        <button type="submit">Add Task</button>
+        <button type="submit">hinzufügen</button>
     </form>
 </div>
 </body>

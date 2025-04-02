@@ -1,21 +1,29 @@
 {
   "1": [
     {
-      "title": "Clean the kitchen",
+      "title": "Küche putzen",
       "done": true
     },
     {
-      "title": "Vacuum the living room",
+      "title": "Flur saugen",
       "done": true
     },
     {
-      "title": "b",
+      "title": "Lüften",
+      "done": false
+    },
+    {
+      "title": "Maultaschen herstellen",
+      "done": false
+    },
+    {
+      "title": "Software Engineering abgeben",
       "done": true
     }
   ],
   "2": [
     {
-      "title": "Buy groceries",
+      "title": "Einkaufen",
       "done": false
     }
   ]
