@@ -1,0 +1,29 @@
+label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+a {
+    color: #3D8A1C;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.info-user-input {
+    font-size: 0.80em;
+    color: #666;
+    margin-bottom: 5px;
+    display: block;
+    margin-top: 5px;
+}
