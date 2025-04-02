@@ -38,6 +38,20 @@
     <button type="submit">+ Termin hinzufügen</button>
 </form>
 
+<ul>
+    <% calendar.events.forEach(event => { %>
+        <li>
+            <strong><%= event.date %></strong>: <%= event.title %>
+            <form action="/calendar/<%= owner.id %>/<%= calendar.id %>/delete-event" method="POST" style="display:inline;">
+                <input type="hidden" name="date" value="<%= event.date %>">
+                <input type="hidden" name="title" value="<%= event.title %>">
+                <button type="submit">🗑️</button>
+            </form>
+        </li>
+    <% }) %>
+</ul>
+
+
 </body>
 </html>
 
