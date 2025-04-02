@@ -1,21 +1,92 @@
 <!DOCTYPE html>
-<html>
-<head><title>Meine Kalender</title></head>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Meine Kalender</title>
+
+    <!-- 🎨 Eingebettetes CSS für die Kalenderliste -->
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f8fa;
+            color: #333;
+            padding: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .calendar-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .calendar-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .calendar-item:hover {
+            background-color: #f0faff;
+            border-color: #007acc;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007acc;
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 2rem;
+        }
+
+        .buttons a button {
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buttons a button:hover {
+            background-color: #004999;
+        }
+    </style>
+</head>
 <body>
 <h1>📋 Deine Kalender</h1>
 
 <% if (calendars.length === 0) { %>
     <p>Du hast noch keine Kalender erstellt.</p>
 <% } else { %>
-    <ul>
+    <ul class="calendar-list">
         <% calendars.forEach(c => { %>
-            <li>
+            <li class="calendar-item">
                 <a href="/calendar/<%= userId %>/<%= c.id %>"><%= c.name %></a>
             </li>
         <% }) %>
     </ul>
 <% } %>
 
-<a href="/">➕ Neuen Kalender erstellen</a>
+<div class="buttons">
+    <a href="/select-users"><button>➕ Neuen Kalender erstellen</button></a>
+    <a href="/"><button>🏠 Zur Startseite</button></a>
+</div>
 </body>
 </html>
