@@ -1,18 +1,1 @@
-[
-  {
-    "id": "cal-1743627041945",
-    "ownerId": "u1",
-    "name": "Fabio",
-    "sharedWith": [
-      "u1",
-      "u2"
-    ],
-    "events": [
-      {
-        "date": "2025-03-02",
-        "title": "Abgabe"
-      }
-    ],
-    "color": null
-  }
-]
+[]
