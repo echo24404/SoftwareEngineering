@@ -103,6 +103,26 @@ describe('calendarController', () => {
         expect(neu.events[0].title).toBe('Controller-Eintrag');
     });
 
+    test('deleteEvent entfernt Termin und leitet zurück', () => {
+        const cal = calendarModel.createCalendar('u1', 'Löschtest');
+        calendarModel.addEventToCalendar(cal.id, 'u1', { date: '2025-04-12', title: 'Lösche mich' });
+
+        const req = {
+            params: { userId: 'u1', calendarId: cal.id },
+            body: { date: '2025-04-12', title: 'Lösche mich' }
+        };
+        const res = mockResponse();
+
+        calendarController.deleteEvent(req, res);
+
+        expect(res.redirect).toHaveBeenCalledWith(`/calendar/u1/${cal.id}`);
+
+        const updated = calendarModel.getCalendarById(cal.id, 'u1');
+        expect(updated.events.length).toBe(0);
+    });
+});
+
+
 
 
 
