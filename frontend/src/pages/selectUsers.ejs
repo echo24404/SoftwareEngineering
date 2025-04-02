@@ -1,72 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head><title>Benutzer auswählen</title></head>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalender erstellen</title>
+
+    <!-- 🎨 Eingebettetes CSS für Start-/Auswahlseite -->
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="text"],
+        select {
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
 <body>
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #f0f4f8;
-        color: #333;
-        padding: 2rem;
-        max-width: 600px;
-        margin: 0 auto;
-    }
+<h1>🗓️ Kalender erstellen</h1>
+<p>Wähle einen Namen und optional die Nutzer, mit denen du deinen Kalender teilen möchtest.</p>
 
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    p {
-        margin-bottom: 1rem;
-        color: #555;
-    }
-
-    form {
-        background-color: #fff;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    input[type="text"],
-    select {
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    input[type="checkbox"] {
-        margin-right: 5px;
-    }
-
-    button {
-        padding: 0.5rem 1rem;
-        background-color: #007acc;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #005fa3;
-    }
-</style>
-<h1>Wähle Nutzer für deinen Kalender</h1>
 <form action="/create-calendar" method="POST">
     <label>Kalendername:</label>
-    <input type="text" name="name" required><br/><br/>
+    <input type="text" name="name" placeholder="z. B. WG-Planer" required>
 
-    <label>Teilen mit (Mehrfachauswahl möglich):</label><br/>
+    <label>Teilen mit:</label><br>
     <% users.forEach(user => { %>
-        <input type="checkbox" name="sharedWith" value="<%= user.id %>"> <%= user.name %><br/>
+        <div>
+            <input type="checkbox" name="sharedWith" value="<%= user.id %>">
+            <%= user.name %>
+        </div>
     <% }) %>
 
-    <input type="hidden" name="ownerId" value="u1"> <!-- Testnutzer -->
-    <br/><button type="submit">Kalender erstellen</button>
+    <!-- Beispiel-Owner -->
+    <input type="hidden" name="ownerId" value="u1">
+
+    <br>
+    <button type="submit">➕ Kalender erstellen</button>
 </form>
 </body>
 </html>
