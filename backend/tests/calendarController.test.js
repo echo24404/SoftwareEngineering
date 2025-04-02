@@ -84,6 +84,25 @@ describe('calendarController', () => {
         }));
     });
 
+    test('addEvent fügt Termin hinzu und leitet weiter', () => {
+        const cal = calendarModel.createCalendar('u1', 'Event-Kalender');
+        const req = {
+            params: { userId: 'u1', calendarId: cal.id },
+            body: {
+                date: '2025-04-10',
+                title: 'Controller-Eintrag'
+            }
+        };
+        const res = mockResponse();
+
+        calendarController.addEvent(req, res);
+
+        expect(res.redirect).toHaveBeenCalledWith(`/calendar/u1/${cal.id}`);
+
+        const neu = calendarModel.getCalendarById(cal.id, 'u1');
+        expect(neu.events[0].title).toBe('Controller-Eintrag');
+    });
+
 
 
 
