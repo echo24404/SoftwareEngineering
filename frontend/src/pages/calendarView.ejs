@@ -1,63 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
     <title><%= calendar.name %> – Kalender</title>
+    <link rel="stylesheet" href="/css/calendarView.css">
 </head>
 <body>
-<h1>🗓️ <%= calendar.name %></h1>
+<h1><%= calendar.name %></h1>
+<p>Dies ist dein geteiltes Kalenderblatt für <strong><%= monthName %></strong>. Du kannst Termine hinzufügen, löschen oder zwischen Monaten wechseln.</p>
 
 <p><strong>Besitzer:</strong> <%= owner.name %></p>
-
 <% if (sharedWith.length > 0) { %>
     <p><strong>Geteilt mit:</strong> <%= sharedWith.map(u => u.name).join(', ') %></p>
 <% } else { %>
     <p><em>Privater Kalender</em></p>
 <% } %>
 
-<h2>Termine</h2>
-<% if (calendar.events.length > 0) { %>
-    <ul>
-        <% calendar.events.forEach(event => { %>
-            <li><strong><%= event.date %></strong>: <%= event.title %></li>
-        <% }) %>
-    </ul>
-<% } else { %>
-    <p>Keine Termine vorhanden.</p>
-<% } %>
-
-<a href="/my-calendars/<%= owner.id %>">← Zurück zur Übersicht</a>
-
-<h2>📝 Neuen Termin hinzufügen</h2>
-<form action="/calendar/<%= owner.id %>/<%= calendar.id %>/add-event" method="POST">
-    <label>Datum:</label>
-    <input type="date" name="date" required><br>
-
-    <label>Titel:</label>
-    <input type="text" name="title" required><br><br>
-
-    <button type="submit">+ Termin hinzufügen</button>
-</form>
-
-<ul>
-    <% calendar.events.forEach(event => { %>
-        <li>
-            <strong><%= event.date %></strong>: <%= event.title %>
-            <form action="/calendar/<%= owner.id %>/<%= calendar.id %>/delete-event" method="POST" style="display:inline;">
-                <input type="hidden" name="date" value="<%= event.date %>">
-                <input type="hidden" name="title" value="<%= event.title %>">
-                <button type="submit">🗑️</button>
-            </form>
-        </li>
-    <% }) %>
-</ul>
-
-<h2><%= monthName %></h2>
-
+<!-- Monatsauswahl -->
+<h2>Monat wechseln</h2>
 <form method="GET" action="">
     <label for="month">Monat:</label>
     <select name="month" id="month">
         <% for (let m = 1; m <= 12; m++) { %>
-            <option value="<%= m %>" <%= m === month ? "selected" : "" %>><%= new Date(0, m - 1).toLocaleString('de-DE', { month: 'long' }) %></option>
+            <option value="<%= m %>" <%= m === month ? "selected" : "" %>>
+                <%= new Date(0, m - 1).toLocaleString('de-DE', { month: 'long' }) %>
+            </option>
         <% } %>
     </select>
 
@@ -71,6 +38,34 @@
     <button type="submit">📅 Anzeigen</button>
 </form>
 
+<!-- Monatsraster -->
+<h2><%= monthName %></h2>
+<div class="calendar-grid">
+    <% days.forEach(day => { %>
+        <div class="day-cell">
+            <strong><%= new Date(day.date).getDate() %>.</strong>
+            <% if (day.events.length > 0) { %>
+                <% day.events.forEach(event => { %>
+                    <div class="event"><%= event.title %></div>
+                <% }) %>
+            <% } else { %>
+                <em>–</em>
+            <% } %>
+        </div>
+    <% }) %>
+</div>
+
+<!-- Termin hinzufügen -->
+<h2>Neuen Termin hinzufügen</h2>
+<form action="/calendar/<%= owner.id %>/<%= calendar.id %>/add-event" method="POST">
+    <input type="date" name="date" required>
+    <input type="text" name="title" placeholder="Was steht an?" required>
+    <button type="submit">+ Termin hinzufügen</button>
+</form>
+
+<br>
+<a href="/my-calendars/<%= owner.id %>">
+    <button>← Zurück zur Kalenderübersicht</button>
+</a>
 </body>
 </html>
-
