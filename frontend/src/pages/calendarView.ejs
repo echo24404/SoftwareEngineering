@@ -3,8 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title><%= calendar.name %> – Kalender</title>
-    <link rel="stylesheet" href="/css/calendarView.css">
+
+    <!-- ✅ Direkt eingebettetes CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: #222;
+            margin-bottom: 0.5rem;
+        }
+
+        form {
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004999;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .day-cell {
+            border: 1px solid #ccc;
+            padding: 8px;
+            min-height: 100px;
+            background-color: #fff;
+            border-radius: 5px;
+            vertical-align: top;
+        }
+
+        .day-cell strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .event {
+            background-color: #e6f7ff;
+            padding: 4px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+            font-size: 0.85rem;
+        }
+
+        em {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
+
 <body>
 <h1><%= calendar.name %></h1>
 <p>Dies ist dein geteiltes Kalenderblatt für <strong><%= monthName %></strong>. Du kannst Termine hinzufügen, löschen oder zwischen Monaten wechseln.</p>
