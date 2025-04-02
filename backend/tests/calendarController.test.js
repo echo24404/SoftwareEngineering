@@ -18,3 +18,16 @@ const testCalendarPath = path.join(__dirname, '../data/calendar.json');
 beforeEach(() => {
     fs.writeFileSync(testCalendarPath, JSON.stringify([], null, 2));
 });
+
+describe('calendarController', () => {
+    test('showUserSelection rendert selectUsers.ejs mit Nutzern', () => {
+        const req = {};
+        const res = mockResponse();
+
+        calendarController.showUserSelection(req, res);
+
+        expect(res.render).toHaveBeenCalledWith('selectUsers', expect.objectContaining({
+            users: expect.any(Array)
+        }));
+    });
+
