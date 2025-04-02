@@ -23,3 +23,19 @@ const loadCalendars = () => {
 const saveCalendars = (calendars) => {
     fs.writeFileSync(calendarPath, JSON.stringify(calendars, null, 2));
 };
+
+exports.createCalendar = (ownerId, name, sharedWith = [], color = null) => {
+    const calendars = loadCalendars();
+    const id = `cal-${Date.now()}`;
+    const newCalendar = {
+        id,
+        ownerId,
+        name,
+        sharedWith,
+        events: [],
+        color
+    };
+    calendars.push(newCalendar);
+    saveCalendars(calendars);
+    return newCalendar;
+};
