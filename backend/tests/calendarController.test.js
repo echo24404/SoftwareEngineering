@@ -39,4 +39,15 @@ describe('calendarController', () => {
                 sharedWith: ['u2']
             }
         };
+        const res = mockResponse();
+
+        calendarController.createCalendar(req, res);
+
+        expect(res.redirect).toHaveBeenCalledWith('/my-calendars/u1');
+
+        const result = calendarModel.getCalendarsForUser('u1');
+        expect(result.length).toBe(1);
+        expect(result[0].name).toBe('ControllerTest');
+    });
+
 
