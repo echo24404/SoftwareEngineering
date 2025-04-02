@@ -1,12 +1,12 @@
 /**
  * @file tasksModel.test.js
- * Unit-Tests für das TasksModel.
+ * Unit tests for the TasksModel.
  */
 const fs = require("fs");
 const path = require("path");
 const TasksModel = require("../../backend/models/tasksModel");
 
-// Um Dateizugriffe zu verhindern, mocken wir fs:
+// To prevent file system access, we mock fs:
 jest.mock("fs");
 
 describe("TasksModel", () => {
@@ -15,15 +15,15 @@ describe("TasksModel", () => {
 
     beforeAll(() => {
         tasksModel = new TasksModel();
-        // Wir leiten den filePath auf eine Testdatei um
+        // We redirect filePath to a test file
         mockFilePath = path.join(__dirname, "mockTasks.json");
         tasksModel.filePath = mockFilePath;
     });
 
     beforeEach(() => {
-        // Vor jedem Test: Clear Mocks
+        // Before each test: clear all mocks
         jest.clearAllMocks();
-        // Default: Wir simulieren eine valide JSON-Datei
+        // By default, we simulate valid JSON data
         fs.readFileSync.mockReturnValue(JSON.stringify({
             "1": [
                 { "title": "Clean the kitchen", "done": false }
@@ -61,14 +61,14 @@ describe("TasksModel", () => {
         expect(unknown).toEqual([]);
     });
 
-    test("addTask() - adds a task and writes file", () => {
-        fs.writeFileSync.mockImplementation(() => {}); // kein Fehler
+    test("addTask() - adds a task and writes to file", () => {
+        fs.writeFileSync.mockImplementation(() => {}); // no error
         tasksModel.addTask("1", { title: "Test Task", done: false });
 
-        // Prüfen, ob geschrieben wurde
+        // Check if it was written
         expect(fs.writeFileSync).toHaveBeenCalled();
 
-        // Was wurde geschrieben?
+        // What was written?
         const [writtenPath, content] = fs.writeFileSync.mock.calls[0];
         expect(writtenPath).toBe(mockFilePath);
 
@@ -95,13 +95,13 @@ describe("TasksModel", () => {
         expect(parsed["1"][0].done).toBe(true);
     });
 
-    test("markTaskDone() - does nothing if index invalid", () => {
+    test("markTaskDone() - does nothing if index is invalid", () => {
         fs.writeFileSync.mockImplementation(() => {});
         tasksModel.markTaskDone("1", 999);
 
-        // Es wurde zwar geschrieben, aber die Daten bleiben unverändert
+        // It was written, but the data remain unchanged
         expect(fs.writeFileSync).toHaveBeenCalled();
         const parsed = JSON.parse(fs.writeFileSync.mock.calls[0][1]);
-        expect(parsed["1"][0].done).toBe(false); // war false
+        expect(parsed["1"][0].done).toBe(false); // was false
     });
 });

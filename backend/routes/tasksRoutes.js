@@ -8,10 +8,10 @@ const router = express.Router();
 const TasksModel = require("../models/tasksModel");
 const tasksModel = new TasksModel();
 
-// Beispiel: Hardcodierter User
+// Example: Hardcoded user
 const USER_ID = "1";
 
-// GET /tasks → Zeigt alle Tasks des Users "1" an
+// GET /tasks → Displays all tasks for user "1"
 router.get("/", (req, res) => {
     const userTasks = tasksModel.getTasksByUser(USER_ID);
     res.render("tasks", {
@@ -22,13 +22,13 @@ router.get("/", (req, res) => {
 
 /**
  * POST /tasks/add
- * Fügt eine neue Aufgabe hinzu, sofern 'title' nicht leer ist.
+ * Adds a new task, provided 'title' is not empty.
  */
 router.post("/add", (req, res) => {
-    console.log("req.body beim add:", req.body);
+    console.log("req.body on add:", req.body);
     const { title } = req.body;
 
-    // Wenn title vorhanden ist & nicht nur Leerzeichen
+    // Only add if title exists & is not just whitespace
     if (title && title.trim() !== "") {
         tasksModel.addTask(USER_ID, { title, done: false });
     }
@@ -37,13 +37,13 @@ router.post("/add", (req, res) => {
 
 /**
  * POST /tasks/done
- * Markiert eine Aufgabe als erledigt
+ * Marks a task as done
  */
 router.post("/done", (req, res) => {
-    console.log("req.body beim done:", req.body);
+    console.log("req.body on done:", req.body);
     const { index } = req.body;
 
-    // Nur wenn index wirklich existiert
+    // Only if index actually exists
     if (index !== undefined) {
         tasksModel.markTaskDone(USER_ID, parseInt(index));
     }

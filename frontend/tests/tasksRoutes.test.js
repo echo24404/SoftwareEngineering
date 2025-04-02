@@ -1,17 +1,17 @@
 /**
  * @file tasksRoutes.test.js
- * Integrationstest-ähnlich für tasksRoutes mit Supertest.
+ * Integration-like tests for tasksRoutes using Supertest.
  */
 const request = require("supertest");
 const express = require("express");
 const path = require("path");
 
-// tasksRoutes, das wir testen
+// tasksRoutes we want to test
 const tasksRoutes = require("../../backend/routes/tasksRoutes");
 
-// Mock fürs Model
+// Mock for the Model
 jest.mock("../../backend/models/tasksModel", () => {
-    // Wir legen ein einfaches Mock-Objekt an, um tasksRoutes zu testen
+    // We create a simple mock object to test tasksRoutes
     const mockData = {
         "1": [
             { "title": "Clean the kitchen", "done": false }
@@ -23,7 +23,7 @@ jest.mock("../../backend/models/tasksModel", () => {
             return mockData;
         }
         saveAllTasks(newData) {
-            // Wir tun so, als ob wir es speichern
+            // We pretend to save it
             Object.assign(mockData, newData);
         }
         getTasksByUser(userId) {
@@ -48,47 +48,47 @@ describe("tasksRoutes", () => {
 
     beforeAll(() => {
         app = express();
-        // Body-Parser
+        // Body parser
         app.use(express.urlencoded({ extended: true }));
 
-        // Test-View-Ordner (muss existieren!)
-        // Wir legen hier minimal eine "tasks.ejs" rein oder mocken das Rendern.
+        // Test view folder (must exist!)
+        // We place a minimal "tasks.ejs" here or mock the rendering.
         app.set("view engine", "ejs");
         app.set("views", path.join(__dirname, "test-views"));
 
-        // Routen unter /tasks
+        // Routes under /tasks
         app.use("/tasks", tasksRoutes);
     });
 
-    test("GET /tasks => 200 und rendert tasks", async () => {
-        // Ruft /tasks auf
+    test("GET /tasks => 200 and renders tasks", async () => {
+        // Calls /tasks
         const response = await request(app).get("/tasks");
-        // Prüfen, ob kein Fehler kam
+        // Check that no error occurred
         expect(response.status).toBe(200);
-        // In test-views/tasks.ejs haben wir irgendein Wort "My Tasks" stehen
+        // In test-views/tasks.ejs we have some word "My Tasks"
         expect(response.text).toContain("My Tasks");
     });
 
-    test("POST /tasks/add => erzeugt neue Aufgabe, leitet um (302)", async () => {
+    test("POST /tasks/add => creates new task, redirects (302)", async () => {
         const response = await request(app)
             .post("/tasks/add")
             .send("title=Test+Task");
-        // Wir erwarten Redirect
+        // We expect a redirect
         expect(response.status).toBe(302);
         expect(response.headers.location).toBe("/tasks");
     });
 
-    test("POST /tasks/add => wenn title leer, keine neue Aufgabe", async () => {
-        // Leerer Title
+    test("POST /tasks/add => if title is empty, no new task", async () => {
+        // Empty title
         const response = await request(app)
             .post("/tasks/add")
             .send("title=");
-        // Wieder Redirect
+        // Again a redirect
         expect(response.status).toBe(302);
-        // Kein Fehler
+        // No error
     });
 
-    test("POST /tasks/done => markiert index=0 als erledigt, redirect", async () => {
+    test("POST /tasks/done => marks index=0 as done, redirect", async () => {
         const response = await request(app)
             .post("/tasks/done")
             .send("index=0");
@@ -96,10 +96,10 @@ describe("tasksRoutes", () => {
         expect(response.headers.location).toBe("/tasks");
     });
 
-    test("POST /tasks/done => wenn kein Index, immer noch redirect", async () => {
+    test("POST /tasks/done => if no index, still redirect", async () => {
         const response = await request(app)
             .post("/tasks/done")
-            .send(""); // kein index
+            .send(""); // no index
         expect(response.status).toBe(302);
         expect(response.headers.location).toBe("/tasks");
     });

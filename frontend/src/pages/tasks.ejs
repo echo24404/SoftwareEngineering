@@ -9,17 +9,17 @@
 <div class="container">
     <h1>Meine Aufgaben</h1>
 
-    <!-- Liste der Aufgaben -->
+    <!-- List of tasks -->
     <ul class="task-list">
         <% tasks.forEach((task, index) => { %>
-            <!-- Skippen, falls task null/undefined ist: -->
+            <!-- Skip if task is null/undefined: -->
             <% if (!task) { return; } %>
 
             <li class="<%= task.done ? 'task-done' : '' %>">
                 <%= task.title %>
                 <% if (!task.done) { %>
                     <form action="/tasks/done" method="POST" class="inline-form">
-                        <!-- Index ans Backend geben -->
+                        <!-- Pass index to the backend -->
                         <input type="hidden" name="index" value="<%= index %>" />
                         <button type="submit">erledigen</button>
                     </form>
@@ -30,7 +30,7 @@
         <% }) %>
     </ul>
 
-    <!-- Formular zum Hinzufügen einer neuen Aufgabe -->
+    <!-- Form to add a new task -->
     <form action="/tasks/add" method="POST" class="add-task-form">
         <label for="title">Neue Aufgabe:</label>
         <input type="text" id="title" name="title" required />
