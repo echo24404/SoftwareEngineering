@@ -52,3 +52,14 @@ exports.addEvent = (req, res) => {
 
     res.redirect(`/calendar/${userId}/${calendarId}`);
 };
+
+exports.deleteEvent = (req, res) => {
+    const { userId, calendarId } = req.params;
+    const { date, title } = req.body;
+
+    const success = calendarModel.deleteEventFromCalendar(calendarId, userId, date, title);
+
+    if (!success) return res.status(404).send('Termin konnte nicht gelöscht werden');
+
+    res.redirect(`/calendar/${userId}/${calendarId}`);
+};

@@ -40,3 +40,14 @@ exports.addEventToCalendar = (calendarId, userId, event) => {
     calendar.events.push(event);
     return true;
 };
+
+exports.deleteEventFromCalendar = (calendarId, userId, date, title) => {
+    const calendar = exports.getCalendarById(calendarId, userId);
+    if (!calendar) return false;
+
+    calendar.events = calendar.events.filter(event =>
+        !(event.date === date && event.title === title)
+    );
+
+    return true;
+};
