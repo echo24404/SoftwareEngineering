@@ -33,3 +33,85 @@ button {
 button:hover {
     background-color: #218838;
 }
+
+/* Listeneinträge */
+.item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.item-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item-list li input.toggle-done {
+    margin-right: 10px;
+}
+
+.item-list li span.item-name {
+    flex: 2;
+}
+
+.item-list li span.created-by {
+    flex: 1;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Button-Container: vertikal */
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Durchgestrichene Artikel */
+.item-done {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Filter- und Sortierbereich */
+.filter-sort {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+}
