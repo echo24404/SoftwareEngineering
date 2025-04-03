@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="de">
+<%- include('./common/head', { title: 'Anmelden', styles: [ '/assets/css/login.css', '/assets/css/toggle.css', '/assets/css/alertBox.css' ] }) %>
 <body>
+<%- include('./common/header', { showString: '', logoRedirectHomepage: true })  %>
 <main>
     <div class="background-image-container"></div>
     <section class="flex-box">
         <article class="flex-box-content">
             <h2>Anmelden</h2>
             <small class="info-user-input">* Pflichtfelder</small>
-            <br>
             <form id="login-form">
                 <p>
                     <label for="login-username">Benutzername*</label>
-                    <br>
                     <input type="text" id="login-username" name="username" required>
                 </p>
                 <label for="login-password">Passwort*</label>
                 <div class="toggle-container">
                     <input type="password" id="login-password" name="password" required>
                     <span class="toggle-item" onclick="toggleVisibility('login-password')">
-                        <img id="toggle-icon" src="../../public/img/auth/iconPasswordHidden.png" alt="">
+                        <img id="toggle-icon" src="/assets/img/auth/iconPasswordHidden.png" alt="">
                     </span>
                 </div>
-                <p>
                 <button type="submit">Anmelden</button>
-                </p>
             </form>
             <p>Noch kein Konto? <a href="/signup">Jetzt registrieren</a></p>
         </article>
     </section>
 </main>
-<script src="../../../backend/controllers/toggleController.js"></script>
-<script src="../../../backend/controllers/loginController.js"></script>
-<script src="../../../backend/controllers/alertBoxController.js"></script>
-<script src="../../../backend/models/loginModel.js"></script>
+<%- include('./common/footer'); %>
+<script src="/controllers/toggleController.js"></script>
+<script src="/controllers/loginController.js"></script>
+<script src="/controllers/alertBoxController.js"></script>
+<script src="/models/loginModel.js"></script>
 </body>
 </html>
