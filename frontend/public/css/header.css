@@ -1,62 +1,47 @@
-/* Header Styles */
 .main-header {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
-    padding-bottom: 0.5rem;
+    background: linear-gradient(135deg, #a8e6a1, #ffffff);
+    padding: 1.5rem 2rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.top-bar {
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
-.top-bar .logo {
-    display: flex;
-    align-items: center;
+.logo img {
+    height: 60px;
+    width: auto;
 }
 
-.top-bar .logo img {
-    max-height: 50px;
-    margin-right: 0.5rem;
-}
-
-.top-bar .brand-name {
-    font-size: 1.8rem;
+.brand-name {
+    font-size: 2rem;
+    color: #388e3c;
     font-weight: bold;
-}
-
-.top-bar .slogan p {
-    font-size: 0.9rem;
-    font-style: italic;
-    margin: 0;
-}
-
-.main-nav {
-    padding: 0.5rem 2rem;
+    margin-left: 0.5rem;
 }
 
 .main-nav ul {
     list-style: none;
     display: flex;
-    justify-content: center;
     gap: 1.5rem;
     margin: 0;
     padding: 0;
 }
 
 .main-nav ul li a {
-    color: #fff;
-    font-weight: 500;
+    font-size: 1.1rem;
+    color: #388e3c;
+    text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .main-nav ul li a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(56, 142, 60, 0.1);
     transform: translateY(-2px);
 }
