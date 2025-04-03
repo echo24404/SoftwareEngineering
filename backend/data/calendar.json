@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": "cal-1743698509997",
+    "ownerId": "u1",
+    "name": "Testkalender E2E",
+    "sharedWith": [
+      "u1"
+    ],
+    "events": [
+      {
+        "date": "2025-04-01",
+        "title": "WG-Putzplan"
+      },
+      {
+        "date": "2025-04-01",
+        "title": "WG-Putzplan"
+      },
+      {
+        "date": "2025-04-01",
+        "title": "WG-Putzplan"
+      }
+    ],
+    "color": null
+  },
+  {
+    "id": "cal-1743698575057",
+    "ownerId": "u1",
+    "name": "Testkalender E2E",
+    "sharedWith": [
+      "u1"
+    ],
+    "events": [],
+    "color": null
+  },
+  {
+    "id": "cal-1743698802323",
+    "ownerId": "u1",
+    "name": "Testkalender E2E",
+    "sharedWith": [
+      "u1"
+    ],
+    "events": [],
+    "color": null
+  },
+  {
+    "id": "cal-1743698945355",
+    "ownerId": "u1",
+    "name": "Fabio",
+    "sharedWith": [
+      "u2",
+      "u3"
+    ],
+    "events": [],
+    "color": null
+  },
+  {
+    "id": "cal-1743699031715",
+    "ownerId": "u1",
+    "name": "u",
+    "sharedWith": [
+      "u1",
+      "u3"
+    ],
+    "events": [],
+    "color": null
+  }
+]
