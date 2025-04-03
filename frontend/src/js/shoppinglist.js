@@ -1,14 +1,26 @@
+// Warte, bis das DOM vollständig geladen ist, bevor der Code ausgeführt wird
 document.addEventListener('DOMContentLoaded', () => {
+    // Elementreferenzen aus dem DOM
     const categorySelect = document.getElementById('category-select');
     const addCategoryForm = document.getElementById('add-category-form');
     const deleteCategoryBtn = document.getElementById('delete-category-btn');
 
-    // Funktion, um Kategorien vom Server zu laden und ins Dropdown zu füllen
+
+    // Lokale Variablen zur Speicherung des aktuellen Zustands
+    let currentItems = []; // speichert aktuell geladene Artikel
+    let sortMode = 'alphabet'; // aktueller Sortiermodus: 'alphabet' oder 'user'
+
+    /* ===========================================================
+       Funktion: loadCategories
+       Zweck: Lädt die Kategorien (Einkaufslisten) vom Server und füllt das Dropdown-Menü.
+    =========================================================== */
     async function loadCategories() {
         try {
             const res = await fetch('/shoppinglist/categories');
             const categories = await res.json();
+            // Setze das Dropdown zurück mit der Standardoption
             categorySelect.innerHTML = '<option value="">-- Auswahl --</option>';
+            // Für jede geladene Kategorie einen <option>-Eintrag erstellen
             categories.forEach(cat => {
                 const option = document.createElement('option');
                 option.value = cat;
@@ -20,16 +32,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event-Listener für das Formular zur Erstellung einer neuen Kategorie
+
+    /* ===========================================================
+       Event Listener: Neues Kategorie-Formular absenden
+       Zweck: Sendet einen POST-Request zum Erstellen einer neuen Kategorie.
+    =========================================================== */
     addCategoryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const input = document.getElementById('new-category-name');
-        const newCategoryName = input.value.trim();
+        const newCategoryName = document.getElementById('new-category-name').value.trim();
         if (!newCategoryName) {
             alert("Bitte einen Kategorienamen eingeben.");
             return;
         }
-        console.log("Erstelle Kategorie:", newCategoryName);
         try {
             const res = await fetch('/shoppinglist/category', {
                 method: 'POST',
@@ -37,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ categoryName: newCategoryName })
             });
             if (res.ok) {
-                const result = await res.json();
-                console.log("Kategorie erstellt:", result);
-                input.value = '';
+                document.getElementById('new-category-name').value = '';
                 loadCategories();
             } else {
                 const errorData = await res.json();
@@ -50,7 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event-Listener für den Button zum Löschen der aktuellen Kategorie
+    /* ===========================================================
+       Event Listener: Kategorie löschen
+       Zweck: Sendet einen DELETE-Request zum Löschen der aktuell ausgewählten Kategorie.
+    =========================================================== */
     deleteCategoryBtn.addEventListener('click', async () => {
         const category = categorySelect.value;
         if (!category) {
@@ -65,9 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ categoryName: category })
                 });
                 if (res.ok) {
-                    const result = await res.json();
-                    console.log("Kategorie gelöscht:", result);
                     loadCategories();
+                    itemList.innerHTML = '';
                 } else {
                     const errorData = await res.json();
                     alert("Fehler: " + errorData.error);
@@ -78,6 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Kategorien beim Laden der Seite holen
+    // Initialer Aufruf: Lade alle Kategorien beim Laden der Seite
     loadCategories();
 });
