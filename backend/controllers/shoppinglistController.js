@@ -16,6 +16,58 @@ exports.getCategories = async (req, res) => {
     }
 };
 
+/**
+ * Gibt die Artikel einer bestimmten Kategorie zurück.
+ * Erwartet einen Query-Parameter "category".
+ */
+exports.getItems = async (req, res) => {
+    const category = req.query.category;
+    if (!category) {
+        return res.status(400).json({ error: "Kategorie query parameter is required" });
+    }
+    try {
+        const data = await getShoppingLists();
+        res.json(data[category] || []);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Artikel:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+/**
+ * Erstellt einen neuen Artikel in einer bestimmten Kategorie.
+ * Erwartet im Body: "category" und "itemName".
+ * Der Artikel erhält zusätzlich den Ersteller (userId), aktuell hardcodiert auf "1",
+ * und wird mit done: false initialisiert.
+ * Es wird geprüft, ob der Artikel bereits existiert.
+ */
+exports.createItem = async (req, res) => {
+    const { category, itemName } = req.body;
+    if (!category || !itemName) {
+        return res.status(400).json({ error: "Kategorie und Artikelname sind erforderlich" });
+    }
+    try {
+        const data = await getShoppingLists();
+        if (!data[category]) {
+            return res.status(404).json({ error: "Kategorie nicht gefunden" });
+        }
+        // Duplikat-Prüfung
+        const existing = data[category].find(item => item.name === itemName);
+        if (existing) {
+            return res.status(400).json({ error: "Artikel existiert bereits" });
+        }
+        // Benutzer-ID: Bei Session-Integration hier ersetzen; aktuell hardcodiert
+        const userId = (req.session && req.session.user && req.session.user.id) ? req.session.user.id : "1";
+        const newItem = { name: itemName, createdBy: userId, done: false };
+        data[category].push(newItem);
+        await updateShoppingLists(data);
+        res.status(201).json(newItem);
+    } catch (error) {
+        console.error("Fehler beim Erstellen des Artikels:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 /**
  * Erstellt eine neue Kategorie (Einkaufsliste).

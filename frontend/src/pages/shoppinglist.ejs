@@ -9,7 +9,6 @@
 <body>
 <div class="container">
     <h1>Einkaufsliste</h1>
-    <!-- Dropdown-Menü für Kategorien -->
     <div>
         <label for="category-select">Wähle Einkaufsliste:</label>
         <select id="category-select">
@@ -17,14 +16,22 @@
         </select>
         <button id="delete-category-btn">Liste löschen</button>
     </div>
-    <!-- Formular zur Erstellung einer neuen Kategorie -->
     <div>
         <form id="add-category-form">
-            <input type="text" id="new-category-name" placeholder="Neue Kategorie" required>
-            <button type="submit">Kategorie hinzufügen</button>
+            <input type="text" id="new-category-name" placeholder="Neue Liste" required>
+            <button type="submit">Liste hinzufügen</button>
+        </form>
+    </div>
+    <hr>
+    <ul id="item-list" class="item-list"></ul>
+    <div>
+        <form id="add-item-form">
+            <input type="text" id="new-item-name" placeholder="Neuer Artikel" required>
+            <button type="submit">Artikel hinzufügen</button>
         </form>
     </div>
 </div>
+
 <script src="/js/shoppinglist.js"></script>
 </body>
 </html>
