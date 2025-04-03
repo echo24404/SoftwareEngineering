@@ -175,7 +175,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listener: Schließen des Edit-Modals bei Klick auf "Abbrechen"
     cancelEditBtn.addEventListener('click', closeEditModal);
 
-
+    /* ===========================================================
+          Funktion: Filterfunktion
+          Zweck: Filtert die aktuell geladenen Artikel basierend auf der Benutzereingabe.
+       =========================================================== */
+    filterInput.addEventListener('input', () => {
+        const query = filterInput.value.toLowerCase();
+        const filtered = currentItems.filter(item => item.name.toLowerCase().includes(query));
+        renderItems(filtered);
+    });
 
     /* ===========================================================
            Funktion: Sortierfunktion
