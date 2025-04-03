@@ -12,7 +12,7 @@ app.set("views", path.join(__dirname, "../frontend/src/pages"));
 
 // Statische Dateien aus dem Frontend bereitstellen
 app.use(express.static(path.join(__dirname, "../frontend/public")));
-app.use(express.static(path.join(__dirname, "../frontend/src/js")));
+app.use(express.static(path.join(__dirname, "../frontend/src")));
 
 // Import und Verwendung der Index-Route
 const indexRoutes = require("./routes/homepageRoutes");

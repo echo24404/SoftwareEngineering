@@ -16,4 +16,4 @@ exports.getCategories = async (req, res) => {
     }
 };
 
-// Die übrigen Funktionen (getItems, createItem, …) bleiben vorerst unverändert.
+// Weitere Funktionen (getItems, createItem, etc.) bleiben vorerst unverändert.
