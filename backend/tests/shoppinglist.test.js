@@ -75,6 +75,25 @@ describe('Shopping List API', () => {
         expect(res.body.error).toBe("Kategorie existiert bereits");
     });
 
+    // Test: DELETE /shoppinglist/category deletes an existing category
+    test('DELETE /shoppinglist/category deletes an existing category', async () => {
+        // Zuerst eine Kategorie anlegen, falls noch nicht vorhanden
+        const categoryToDelete = "DeleteCategory";
+        await request(app)
+            .post('/shoppinglist/category')
+            .send({ categoryName: categoryToDelete });
+        // Nun löschen
+        const res = await request(app)
+            .delete('/shoppinglist/category')
+            .send({ categoryName: categoryToDelete });
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toMatchObject({ message: "Kategorie gelöscht", categoryName: categoryToDelete });
+        // Prüfe, ob die Kategorie nicht mehr vorhanden ist
+        const catRes = await request(app).get('/shoppinglist/categories');
+        expect(catRes.body).not.toContain(categoryToDelete);
+    });
+
+
 
 
 
