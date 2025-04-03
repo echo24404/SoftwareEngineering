@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             li.dataset.item = item.name;
 
 
-
             // Erstelle ein Span für den Artikelnamen
             const spanName = document.createElement('span');
             spanName.className = 'item-name';
@@ -88,10 +87,35 @@ document.addEventListener('DOMContentLoaded', () => {
             li.appendChild(spanName);
 
 
+            // Erstelle einen Container für die Aktionsbuttons (Bearbeiten & Löschen)
+            const btnContainer = document.createElement('div');
+            btnContainer.className = 'btn-container';
+
+            // Erstelle den "Bearbeiten"-Button
+            const editBtn = document.createElement('button');
+            editBtn.className = 'edit-item-btn';
+            editBtn.textContent = 'Bearbeiten';
+            editBtn.addEventListener('click', () => {
+                openEditModal(item);
+            });
+            btnContainer.appendChild(editBtn);
+
+            // Erstelle den "Löschen"-Button und speichere den Artikelnamen als Datensatz
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-item-btn';
+            deleteBtn.textContent = 'Löschen';
+            deleteBtn.dataset.item = item.name;
+            btnContainer.appendChild(deleteBtn);
+
+            li.appendChild(btnContainer);
+
+
             // Füge das Listenelement der Artikelliste hinzu
             itemList.appendChild(li);
         });
     }
+
+
 
 
 
@@ -142,7 +166,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
+    /* ===========================================================
+       Event Listener: Artikel löschen
+       Zweck: Sendet einen DELETE-Request zum Löschen eines Artikels.
+    =========================================================== */
+    itemList.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('delete-item-btn')) {
+            const category = categorySelect.value;
+            const itemName = e.target.getAttribute('data-item');
+            if (confirm(`Möchtest du den Artikel "${itemName}" löschen?`)) {
+                try {
+                    const res = await fetch('/shoppinglist/item', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ category, itemName })
+                    });
+                    if (res.ok) {
+                        loadItems(category);
+                    } else {
+                        const errorData = await res.json();
+                        alert("Fehler: " + errorData.error);
+                    }
+                } catch (error) {
+                    console.error("Fehler beim Löschen des Artikels:", error);
+                }
+            }
+        }
+    });
 
     /* ===========================================================
        Event Listener: Neues Kategorie-Formular absenden

@@ -12,6 +12,12 @@
       "done": false
     }
   ],
-  "Biomarkt": [],
+  "Biomarkt": [
+    {
+      "name": "asd",
+      "createdBy": "1",
+      "done": false
+    }
+  ],
   "Getränkemarkt": []
 }

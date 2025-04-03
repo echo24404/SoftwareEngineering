@@ -68,6 +68,33 @@ exports.createItem = async (req, res) => {
     }
 };
 
+/**
+ * Löscht einen Artikel aus einer bestimmten Kategorie.
+ * Erwartet im Body: "category" und "itemName".
+ */
+exports.deleteItem = async (req, res) => {
+    const { category, itemName } = req.body;
+    if (!category || !itemName) {
+        return res.status(400).json({ error: "Kategorie und Artikelname sind erforderlich" });
+    }
+    try {
+        const data = await getShoppingLists();
+        if (!data[category]) {
+            return res.status(404).json({ error: "Kategorie nicht gefunden" });
+        }
+        const originalLength = data[category].length;
+        data[category] = data[category].filter(item => item.name !== itemName);
+        if (data[category].length === originalLength) {
+            return res.status(404).json({ error: "Artikel nicht gefunden" });
+        }
+        await updateShoppingLists(data);
+        res.status(200).json({ message: "Artikel gelöscht", itemName });
+    } catch (error) {
+        console.error("Fehler beim Löschen des Artikels:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 /**
  * Erstellt eine neue Kategorie (Einkaufsliste).
