@@ -117,6 +117,22 @@ describe('Shopping List API', () => {
         expect(res.body.error).toBe("Artikel existiert bereits");
     });
 
+    // Test: POST /shoppinglist/toggle toggles item status
+    test('POST /shoppinglist/toggle toggles item status', async () => {
+        // Toggle den Status des bereits existierenden Items "Item1"
+        const res = await request(app)
+            .post('/shoppinglist/toggle')
+            .send({ category: "TestCategory", itemName: "Item1" });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.item.done).toBe(true);
+        // Noch einmal toggeln
+        const res2 = await request(app)
+            .post('/shoppinglist/toggle')
+            .send({ category: "TestCategory", itemName: "Item1" });
+        expect(res2.body.item.done).toBe(false);
+    });
+
+
 
 
 
