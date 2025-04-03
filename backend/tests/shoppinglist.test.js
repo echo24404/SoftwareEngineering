@@ -93,6 +93,22 @@ describe('Shopping List API', () => {
         expect(catRes.body).not.toContain(categoryToDelete);
     });
 
+    // Test: POST /shoppinglist/item creates a new item in a category
+    test('POST /shoppinglist/item creates a new item in a category', async () => {
+        const newItem = "NewItem";
+        const res = await request(app)
+            .post('/shoppinglist/item')
+            .send({ category: "TestCategory", itemName: newItem });
+        expect(res.statusCode).toBe(201);
+        expect(res.body).toMatchObject({ name: newItem, createdBy: "1", done: false });
+        // Prüfe, ob das Item in der Kategorie vorhanden ist
+        const itemsRes = await request(app).get('/shoppinglist/items?category=TestCategory');
+        expect(itemsRes.body).toEqual(
+            expect.arrayContaining([expect.objectContaining({ name: newItem })])
+        );
+    });
+
+
 
 
 
