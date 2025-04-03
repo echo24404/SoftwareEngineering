@@ -46,5 +46,13 @@ describe('Shopping List API', () => {
         expect(res.body[0]).toMatchObject({ name: "Item1", createdBy: "1", done: false });
     });
 
+    // Test: GET /shoppinglist/items returns error for invalid category
+    test('GET /shoppinglist/items returns error for missing category parameter', async () => {
+        const res = await request(app).get('/shoppinglist/items');
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Kategorie query parameter is required");
+    });
+
+
 
 });
