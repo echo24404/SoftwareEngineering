@@ -177,9 +177,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    /* ===========================================================
+           Funktion: Sortierfunktion
+           Zweck: Schaltet zwischen alphabetischer Sortierung und Sortierung nach dem Ersteller (User) um.
+        =========================================================== */
+    sortBtn.addEventListener('click', () => {
+        sortMode = (sortMode === 'alphabet') ? 'user' : 'alphabet';
+        if (sortMode === 'alphabet') {
+            const sorted = [...currentItems].sort((a, b) => a.name.localeCompare(b.name));
+            currentItems = sorted;
+            renderItems(sorted);
+            sortBtn.textContent = 'Sortieren: Alphabetisch';
+            updateOrder(sorted.map(item => item.name));
+        } else {
+            const sorted = [...currentItems].sort((a, b) => a.createdBy.toString().localeCompare(b.createdBy.toString()));
+            currentItems = sorted;
+            renderItems(sorted);
+            sortBtn.textContent = 'Sortieren: Nach User';
+            updateOrder(sorted.map(item => item.name));
+        }
+    });
 
-
-
+    /* ===========================================================
+           Funktion: updateOrder
+           Zweck: Sendet die neue Reihenfolge der Artikel an den Server, um sie zu speichern.
+        =========================================================== */
+    async function updateOrder(newOrder) {
+        const category = categorySelect.value;
+        try {
+            const res = await fetch('/shoppinglist/order', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, newOrder })
+            });
+            if (!res.ok) {
+                const errorData = await res.json();
+                console.error("Fehler beim Aktualisieren der Reihenfolge:", errorData.error);
+            }
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren der Reihenfolge:", error);
+        }
+    }
 
 
 

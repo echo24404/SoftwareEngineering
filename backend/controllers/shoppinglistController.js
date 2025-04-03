@@ -201,3 +201,38 @@ exports.toggleItemStatus = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+/**
+ * Aktualisiert die Reihenfolge der Artikel in einer Kategorie.
+ * Erwartet im Body: "category" und "newOrder" (Array von Artikelnamen in gewünschter Reihenfolge).
+ */
+exports.updateOrder = async (req, res) => {
+    const { category, newOrder } = req.body;
+    if (!category || !Array.isArray(newOrder)) {
+        return res.status(400).json({ error: "Kategorie und neues Array sind erforderlich" });
+    }
+    try {
+        const data = await getShoppingLists();
+        if (!data[category]) {
+            return res.status(404).json({ error: "Kategorie nicht gefunden" });
+        }
+        const reordered = [];
+        newOrder.forEach(itemName => {
+            const item = data[category].find(item => item.name === itemName);
+            if (item) {
+                reordered.push(item);
+            }
+        });
+        data[category].forEach(item => {
+            if (!newOrder.includes(item.name)) {
+                reordered.push(item);
+            }
+        });
+        data[category] = reordered;
+        await updateShoppingLists(data);
+        res.status(200).json({ message: "Reihenfolge aktualisiert", items: reordered });
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Reihenfolge:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
