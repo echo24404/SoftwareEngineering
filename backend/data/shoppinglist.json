@@ -1,12 +1,17 @@
 {
   "Discounter": [
     {
+      "name": "Brot aus Backtheke",
+      "createdBy": "1",
+      "done": false
+    },
+    {
       "name": "TK Pizza",
       "createdBy": "1",
       "done": false
     },
     {
-      "name": "Brot aus Backtheke",
+      "name": "Plombir Eis",
       "createdBy": "1",
       "done": false
     }
