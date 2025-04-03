@@ -23,11 +23,32 @@
         </form>
     </div>
     <hr>
+    <div class="filter-sort">
+        <input type="text" id="filter-input" placeholder="Artikel filtern">
+        <button id="sort-btn">Sortieren: Alphabetisch</button>
+    </div>
     <ul id="item-list" class="item-list"></ul>
     <div>
         <form id="add-item-form">
             <input type="text" id="new-item-name" placeholder="Neuer Artikel" required>
             <button type="submit">Artikel hinzufügen</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal für Bearbeiten (nur Artikelname) -->
+<div id="edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h2>Artikel bearbeiten</h2>
+        <form id="edit-form">
+            <label for="edit-item-name">Artikelname:</label>
+            <input type="text" id="edit-item-name" required>
+            <input type="hidden" id="edit-item-old-name">
+            <input type="hidden" id="edit-item-category">
+            <div class="modal-buttons">
+                <button type="submit">Speichern</button>
+                <button type="button" id="cancel-edit">Abbrechen</button>
+            </div>
         </form>
     </div>
 </div>
