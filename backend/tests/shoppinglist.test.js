@@ -108,6 +108,16 @@ describe('Shopping List API', () => {
         );
     });
 
+    // Test: POST /shoppinglist/item fails if item already exists
+    test('POST /shoppinglist/item fails if item already exists', async () => {
+        const res = await request(app)
+            .post('/shoppinglist/item')
+            .send({ category: "TestCategory", itemName: "Item1" });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Artikel existiert bereits");
+    });
+
+
 
 
 
