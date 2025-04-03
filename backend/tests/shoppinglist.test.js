@@ -53,6 +53,20 @@ describe('Shopping List API', () => {
         expect(res.body.error).toBe("Kategorie query parameter is required");
     });
 
+    // Test: POST /shoppinglist/category creates a new category
+    test('POST /shoppinglist/category creates a new category', async () => {
+        const newCategory = "NewCategory";
+        const res = await request(app)
+            .post('/shoppinglist/category')
+            .send({ categoryName: newCategory });
+        expect(res.statusCode).toBe(201);
+        expect(res.body).toMatchObject({ message: "Kategorie erstellt", categoryName: newCategory });
+        // Nach Erstellung sollte das Array der Kategorien den neuen Eintrag enthalten
+        const catRes = await request(app).get('/shoppinglist/categories');
+        expect(catRes.body).toContain(newCategory);
+    });
+
+
 
 
 });
