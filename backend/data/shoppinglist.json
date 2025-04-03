@@ -1,6 +1,65 @@
 {
-  "Discounter": [],
-  "Supermarkt": [],
-  "Biomarkt": [],
-  "Getränkemarkt": []
+  "Discounter": [
+    {
+      "name": "TK Pizza",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Brot aus Backtheke",
+      "createdBy": "1",
+      "done": false
+    }
+  ],
+  "Supermarkt": [
+    {
+      "name": "Fleisch",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Gemüse",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Obst",
+      "createdBy": "1",
+      "done": false
+    }
+  ],
+  "Biomarkt": [
+    {
+      "name": "Mandelmilch",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Chiasamen",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Flohsamenschalen",
+      "createdBy": "1",
+      "done": false
+    }
+  ],
+  "Getränkemarkt": [
+    {
+      "name": "Fanta",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Spezi",
+      "createdBy": "1",
+      "done": false
+    },
+    {
+      "name": "Cola",
+      "createdBy": "1",
+      "done": false
+    }
+  ]
 }
