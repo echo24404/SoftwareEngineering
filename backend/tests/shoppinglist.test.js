@@ -132,6 +132,21 @@ describe('Shopping List API', () => {
         expect(res2.body.item.done).toBe(false);
     });
 
+    // Test: PUT /shoppinglist/item updates an item name
+    test('PUT /shoppinglist/item updates an item name', async () => {
+        const res = await request(app)
+            .put('/shoppinglist/item')
+            .send({ category: "TestCategory", oldItemName: "Item1", newItemName: "UpdatedItem1" });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.item).toMatchObject({ name: "UpdatedItem1" });
+        // Prüfe, ob das Item mit dem neuen Namen in der Kategorie existiert
+        const itemsRes = await request(app).get('/shoppinglist/items?category=TestCategory');
+        expect(itemsRes.body).toEqual(
+            expect.arrayContaining([expect.objectContaining({ name: "UpdatedItem1" })])
+        );
+    });
+
+
 
 
 
