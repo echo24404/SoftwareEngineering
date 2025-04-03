@@ -66,6 +66,16 @@ describe('Shopping List API', () => {
         expect(catRes.body).toContain(newCategory);
     });
 
+    // Test: POST /shoppinglist/category fails if category exists
+    test('POST /shoppinglist/category fails if category already exists', async () => {
+        const res = await request(app)
+            .post('/shoppinglist/category')
+            .send({ categoryName: "TestCategory" });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Kategorie existiert bereits");
+    });
+
+
 
 
 
