@@ -146,13 +146,35 @@ describe('Shopping List API', () => {
         );
     });
 
+    // Test: PUT /shoppinglist/item fails when new item name already exists
+    test('PUT /shoppinglist/item fails when new item name already exists', async () => {
+        // Zuerst ein neues Item anlegen
+        await request(app)
+            .post('/shoppinglist/item')
+            .send({ category: "TestCategory", itemName: "UniqueItem" });
+        // Versuch, "UniqueItem" in "UpdatedItem1" zu ändern, wobei "UpdatedItem1" bereits existiert
+        const res = await request(app)
+            .put('/shoppinglist/item')
+            .send({ category: "TestCategory", oldItemName: "UniqueItem", newItemName: "UpdatedItem1" });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBe("Artikelname existiert bereits");
+    });
 
-
-
-
-
-
-
-
-
+    // Test: PUT /shoppinglist/order updates order
+    test('PUT /shoppinglist/order updates order', async () => {
+        // Füge noch ein weiteres Item hinzu, damit die Reihenfolge sich ändern kann
+        await request(app)
+            .post('/shoppinglist/item')
+            .send({ category: "TestCategory", itemName: "AnotherItem" });
+        // Definiere eine neue Reihenfolge
+        const newOrder = ["AnotherItem", "UpdatedItem1"];
+        const res = await request(app)
+            .put('/shoppinglist/order')
+            .send({ category: "TestCategory", newOrder });
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body.items)).toBe(true);
+        // Überprüfe, ob die Reihenfolge dem neuen Order entspricht
+        expect(res.body.items[0].name).toBe("AnotherItem");
+        expect(res.body.items[1].name).toBe("UpdatedItem1");
+    });
 });
