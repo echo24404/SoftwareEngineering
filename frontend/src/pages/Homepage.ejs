@@ -9,28 +9,46 @@
     <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-<%- include("partials/header") %>
+<%- include("../partials/header") %>
 
-<main>
-    <section class="intro">
-        <h1>Willkommen in der WG-App</h1>
+<main class="homepage-content">
+    <section class="intro fade-in">
+        <h2>Willkommen in der WG-App</h2>
         <p>
-            Diese App bietet dir alle wichtigen Tools für dein WG-Leben – von Kalendern über Stundenpläne bis zu Aufgaben und Einkaufsliste.
+            Organisiere dein WG-Leben ganz einfach – von Kalendern über Stundenpläne bis hin zu Aufgaben und Einkaufslisten.
         </p>
     </section>
-
-    <section class="navigation">
-        <h2>Navigation</h2>
-        <ul>
-            <li><a href="#" title="Kalender (Platzhalter) – Fabio">Kalender</a></li>
-            <li><a href="#" title="Stundenplan (Platzhalter) – Fabio">Stundenplan</a></li>
-            <li><a href="#" title="Aufgaben (Platzhalter) – Mika">Aufgaben</a></li>
-            <li><a href="#" title="Einkaufsliste (Platzhalter) – Tim">Einkaufsliste</a></li>
-        </ul>
+    <section class="features">
+        <h3>Unsere Funktionen</h3>
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4>Kalender</h4>
+                <p>Verwalte Termine und Ereignisse auf einen Blick.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Stundenplan</h4>
+                <p>Behalte deinen Stundenplan immer im Auge.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Aufgaben</h4>
+                <p>Organisiere deine To-Do's und bleibe produktiv.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Einkaufsliste</h4>
+                <p>Erstelle und teile Einkaufslisten für die WG.</p>
+            </div>
+        </div>
+    </section>
+    <section class="news">
+        <h3>Neuigkeiten</h3>
+        <article class="news-item">
+            <h4>Update Version 2.0</h4>
+            <p>Erfahre mehr über die neuen Features und Verbesserungen.</p>
+        </article>
     </section>
 </main>
 
-<%- include("partials/footer") %>
+<%- include("../partials/footer") %>
 <script src="/js/scripts.js"></script>
 </body>
 </html>
