@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/src/pages"));
 
-// Import and use the index route (example)
+// Import and use the index route
 const indexRoutes = require("./routes/homepageRoutes");
 app.use("/", indexRoutes);
 
@@ -23,11 +23,11 @@ app.use("/", indexRoutes);
 const tasksRoutes = require("./routes/tasksRoutes");
 app.use("/tasks", tasksRoutes);
 
-const authRoutes = require("./routes/loginRoutes");
-app.use('/signup', authRoutes);
+const loginRoutes = require("./routes/loginRoutes");
+app.use('/login', loginRoutes);
 
-const registerRoutes = require('./routes/signupRoutes');
-app.use('/login', registerRoutes);
+const signupRoutes = require('./routes/signupRoutes');
+app.use('/signup', signupRoutes);
 
 /**
  * @function jsonErrorHandlerMiddleware
@@ -98,3 +98,4 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
+console.log(`Call DEV-Frontend: http://localhost:${PORT}`);
