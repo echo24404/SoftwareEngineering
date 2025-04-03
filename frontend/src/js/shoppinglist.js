@@ -75,6 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const li = document.createElement('li');
             li.dataset.item = item.name;
 
+            // Erstelle und füge eine Checkbox hinzu, um den "done"-Status zu toggeln
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'toggle-done';
+            checkbox.checked = item.done;
+            checkbox.addEventListener('change', () => {
+                toggleItemStatus(item.name);
+            });
+            li.appendChild(checkbox);
+
 
             // Erstelle ein Span für den Artikelnamen
             const spanName = document.createElement('span');
