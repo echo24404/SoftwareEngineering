@@ -173,3 +173,31 @@ exports.deleteCategory = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+
+/**
+ * Toggle: Markiert einen Artikel als erledigt oder unerledigt.
+ * Erwartet im Body: "category" und "itemName".
+ */
+exports.toggleItemStatus = async (req, res) => {
+    const { category, itemName } = req.body;
+    if (!category || !itemName) {
+        return res.status(400).json({ error: "Kategorie und Artikelname sind erforderlich" });
+    }
+    try {
+        const data = await getShoppingLists();
+        if (!data[category]) {
+            return res.status(404).json({ error: "Kategorie nicht gefunden" });
+        }
+        const item = data[category].find(item => item.name === itemName);
+        if (!item) {
+            return res.status(404).json({ error: "Artikel nicht gefunden" });
+        }
+        item.done = !item.done;
+        await updateShoppingLists(data);
+        res.status(200).json({ message: "Status aktualisiert", item });
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren des Artikelstatus:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
