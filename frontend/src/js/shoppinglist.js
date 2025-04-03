@@ -22,11 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event-Listener für das Formular zur Erstellung einer neuen Kategorie
     addCategoryForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const newCategoryName = document.getElementById('new-category-name').value.trim();
+        const input = document.getElementById('new-category-name');
+        const newCategoryName = input.value.trim();
         if (!newCategoryName) {
             alert("Bitte einen Kategorienamen eingeben.");
             return;
         }
+        console.log("Erstelle Kategorie:", newCategoryName);
         try {
             const res = await fetch('/shoppinglist/category', {
                 method: 'POST',
@@ -34,7 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ categoryName: newCategoryName })
             });
             if (res.ok) {
-                document.getElementById('new-category-name').value = '';
+                const result = await res.json();
+                console.log("Kategorie erstellt:", result);
+                input.value = '';
                 loadCategories();
             } else {
                 const errorData = await res.json();
@@ -47,6 +51,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Kategorien beim Laden der Seite holen
     loadCategories();
-
-    // ... (weitere Funktionen folgen in späteren Commits)
 });
