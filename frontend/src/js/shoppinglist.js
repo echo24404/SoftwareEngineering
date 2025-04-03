@@ -218,7 +218,41 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Fehler beim Aktualisieren der Reihenfolge:", error);
         }
     }
-
+    /* ===========================================================
+           Funktionen: Drag & Drop
+           Zweck: Ermöglichen das Verschieben von Artikeln in der Liste und Aktualisieren der Reihenfolge.
+        =========================================================== */
+    let dragSrcEl = null;
+    function handleDragStart(e) {
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.dataset.item);
+        this.classList.add('dragging');
+    }
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+    function handleDrop(e) {
+        e.stopPropagation();
+        if (dragSrcEl !== this) {
+            const items = Array.from(itemList.children);
+            const srcIndex = items.indexOf(dragSrcEl);
+            const targetIndex = items.indexOf(this);
+            if (srcIndex < targetIndex) {
+                itemList.insertBefore(dragSrcEl, this.nextSibling);
+            } else {
+                itemList.insertBefore(dragSrcEl, this);
+            }
+            const newOrder = Array.from(itemList.children).map(li => li.dataset.item);
+            updateOrder(newOrder);
+        }
+        return false;
+    }
+    function handleDragEnd() {
+        this.classList.remove('dragging');
+    }
 
 
     /* ===========================================================
