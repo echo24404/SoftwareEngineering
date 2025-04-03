@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Stundenplan einbinden</title>
+</head>
+<body>
+<h1>Link zum Stundenplan</h1>
+
+<form action="/timetable" method="POST">
+    <input type="url" name="link" placeholder="https://..." required style="width: 300px;">
+    <button type="submit">Anzeigen</button>
+</form>
+
+<% if (timetableUrl) { %>
+    <h2>Vorschau:</h2>
+    <iframe src="<%= timetableUrl %>" width="100%" height="600" style="border:1px solid #ccc;"></iframe>
+<% } %>
+</body>
+</html>
