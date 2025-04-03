@@ -36,4 +36,15 @@ describe('Shopping List API', () => {
         // Da unser Mock initial "TestCategory" enthält
         expect(res.body).toContain("TestCategory");
     });
+
+    // Test: GET /shoppinglist/items returns items for a valid category
+    test('GET /shoppinglist/items returns items for a valid category', async () => {
+        const res = await request(app).get('/shoppinglist/items?category=TestCategory');
+        expect(res.statusCode).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body).toHaveLength(1);
+        expect(res.body[0]).toMatchObject({ name: "Item1", createdBy: "1", done: false });
+    });
+
+
 });
