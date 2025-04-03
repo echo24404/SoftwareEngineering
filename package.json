@@ -4,10 +4,17 @@
   "description": "",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "test": "jest"
   },
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
   }
 }
+
+
