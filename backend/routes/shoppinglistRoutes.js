@@ -16,6 +16,8 @@ router.get('/', (req, res) => {
 router.get('/categories', shoppinglistController.getCategories);
 router.get('/items', shoppinglistController.getItems);
 router.post('/item', shoppinglistController.createItem);
+router.delete('/item', shoppinglistController.deleteItem);
+router.put('/item', shoppinglistController.updateItem);
 router.post('/category', shoppinglistController.createCategory);
 router.delete('/category', shoppinglistController.deleteCategory);
 

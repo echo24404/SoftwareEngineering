@@ -95,6 +95,38 @@ exports.deleteItem = async (req, res) => {
     }
 };
 
+/**
+ * Aktualisiert einen Artikel (Bearbeiten).
+ * Erwartet im Body: "category", "oldItemName" und "newItemName".
+ */
+exports.updateItem = async (req, res) => {
+    const { category, oldItemName, newItemName } = req.body;
+    if (!category || !oldItemName || !newItemName) {
+        return res.status(400).json({ error: "Kategorie, alter und neuer Artikelname sind erforderlich" });
+    }
+    try {
+        const data = await getShoppingLists();
+        if (!data[category]) {
+            return res.status(404).json({ error: "Kategorie nicht gefunden" });
+        }
+        // Prüfen, ob neuer Name bereits existiert (außer für den aktuellen Artikel)
+        const duplicate = data[category].find(item => item.name === newItemName && item.name !== oldItemName);
+        if (duplicate) {
+            return res.status(400).json({ error: "Artikelname existiert bereits" });
+        }
+        const item = data[category].find(item => item.name === oldItemName);
+        if (!item) {
+            return res.status(404).json({ error: "Artikel nicht gefunden" });
+        }
+        item.name = newItemName;
+        await updateShoppingLists(data);
+        res.status(200).json({ message: "Artikel aktualisiert", item });
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren des Artikels:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 /**
  * Erstellt eine neue Kategorie (Einkaufsliste).

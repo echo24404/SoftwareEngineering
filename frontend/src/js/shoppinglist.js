@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             btnContainer.appendChild(editBtn);
 
+
             // Erstelle den "Löschen"-Button und speichere den Artikelnamen als Datensatz
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-item-btn';
@@ -117,7 +118,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    /* ===========================================================
+          Funktion: openEditModal
+          Zweck: Öffnet das Edit-Modal und füllt die Felder mit den Daten des zu bearbeitenden Artikels.
+       =========================================================== */
+    function openEditModal(item) {
+        editItemNameInput.value = item.name;
+        editItemOldNameInput.value = item.name;
+        editItemCategoryInput.value = categorySelect.value;
+        editModal.style.display = 'block';
+    }
 
+    /* ===========================================================
+       Funktion: closeEditModal
+       Zweck: Schließt das Edit-Modal.
+    =========================================================== */
+    function closeEditModal() {
+        editModal.style.display = 'none';
+    }
+
+    // Event Listener: Bearbeitungsformular absenden (Artikel aktualisieren)
+    editForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const category = editItemCategoryInput.value;
+        const oldItemName = editItemOldNameInput.value;
+        const newItemName = editItemNameInput.value.trim();
+        if (!newItemName) return;
+        try {
+            const res = await fetch('/shoppinglist/item', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, oldItemName, newItemName })
+            });
+            if (res.ok) {
+                closeEditModal();
+                loadItems(category);
+            } else {
+                const errorData = await res.json();
+                alert("Fehler: " + errorData.error);
+            }
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren des Artikels:", error);
+        }
+    });
+
+    // Event Listener: Schließen des Edit-Modals bei Klick auf "Abbrechen"
+    cancelEditBtn.addEventListener('click', closeEditModal);
 
 
 
