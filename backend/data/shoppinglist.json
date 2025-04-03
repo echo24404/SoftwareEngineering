@@ -1,6 +1,12 @@
 {
   "Discounter": [],
-  "Supermarkt": [],
+  "Supermarkt": [
+    {
+      "name": "asd",
+      "createdBy": "1",
+      "done": false
+    }
+  ],
   "Biomarkt": [],
   "Getränkemarkt": []
 }

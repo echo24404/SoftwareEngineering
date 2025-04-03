@@ -14,6 +14,8 @@ router.get('/', (req, res) => {
 // API-Endpunkte:
 
 router.get('/categories', shoppinglistController.getCategories);
+router.get('/items', shoppinglistController.getItems);
+router.post('/item', shoppinglistController.createItem);
 router.post('/category', shoppinglistController.createCategory);
 router.delete('/category', shoppinglistController.deleteCategory);
 
