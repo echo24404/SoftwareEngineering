@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const categorySelect = document.getElementById('category-select');
     const addCategoryForm = document.getElementById('add-category-form');
+    const deleteCategoryBtn = document.getElementById('delete-category-btn');
 
     // Funktion, um Kategorien vom Server zu laden und ins Dropdown zu füllen
     async function loadCategories() {
@@ -46,6 +47,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error("Fehler beim Hinzufügen der Kategorie:", error);
+        }
+    });
+
+    // Event-Listener für den Button zum Löschen der aktuellen Kategorie
+    deleteCategoryBtn.addEventListener('click', async () => {
+        const category = categorySelect.value;
+        if (!category) {
+            alert("Bitte eine Kategorie auswählen.");
+            return;
+        }
+        if (confirm(`Möchtest du die Kategorie "${category}" löschen? Alle darin enthaltenen Artikel gehen verloren.`)) {
+            try {
+                const res = await fetch('/shoppinglist/category', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ categoryName: category })
+                });
+                if (res.ok) {
+                    const result = await res.json();
+                    console.log("Kategorie gelöscht:", result);
+                    loadCategories();
+                } else {
+                    const errorData = await res.json();
+                    alert("Fehler: " + errorData.error);
+                }
+            } catch (error) {
+                console.error("Fehler beim Löschen der Kategorie:", error);
+            }
         }
     });
 
