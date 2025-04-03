@@ -1,10 +1,7 @@
 {
-  "Discounter": [
-  ],
-  "Supermarkt": [
-  ],
-  "Biomarkt": [
-  ],
-  "Getränkemarkt": [
-  ]
+  "Discounter": [],
+  "Supermarkt": [],
+  "Biomarkt": [],
+  "Getränkemarkt": [],
+  "sdg": []
 }
