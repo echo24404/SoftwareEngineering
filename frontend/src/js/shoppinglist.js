@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             li.appendChild(checkbox);
 
-
             // Erstelle ein Span für den Artikelnamen
             const spanName = document.createElement('span');
             spanName.className = 'item-name';
@@ -96,6 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             li.appendChild(spanName);
 
+            // Erstelle ein Span für die Information, welcher User den Artikel erstellt hat
+            const spanCreatedBy = document.createElement('span');
+            spanCreatedBy.className = 'created-by';
+            spanCreatedBy.textContent = `Erstellt von User ${item.createdBy}`;
+            li.appendChild(spanCreatedBy);
 
             // Erstelle einen Container für die Aktionsbuttons (Bearbeiten & Löschen)
             const btnContainer = document.createElement('div');
@@ -110,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             btnContainer.appendChild(editBtn);
 
-
             // Erstelle den "Löschen"-Button und speichere den Artikelnamen als Datensatz
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-item-btn';
@@ -120,18 +123,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             li.appendChild(btnContainer);
 
+            // Füge Drag & Drop Event-Listener hinzu
+            li.addEventListener('dragstart', handleDragStart);
+            li.addEventListener('dragover', handleDragOver);
+            li.addEventListener('drop', handleDrop);
+            li.addEventListener('dragend', handleDragEnd);
 
             // Füge das Listenelement der Artikelliste hinzu
             itemList.appendChild(li);
         });
     }
 
-
-
     /* ===========================================================
-          Funktion: openEditModal
-          Zweck: Öffnet das Edit-Modal und füllt die Felder mit den Daten des zu bearbeitenden Artikels.
-       =========================================================== */
+       Funktion: openEditModal
+       Zweck: Öffnet das Edit-Modal und füllt die Felder mit den Daten des zu bearbeitenden Artikels.
+    =========================================================== */
     function openEditModal(item) {
         editItemNameInput.value = item.name;
         editItemOldNameInput.value = item.name;
@@ -176,9 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelEditBtn.addEventListener('click', closeEditModal);
 
     /* ===========================================================
-          Funktion: Filterfunktion
-          Zweck: Filtert die aktuell geladenen Artikel basierend auf der Benutzereingabe.
-       =========================================================== */
+       Funktion: Filterfunktion
+       Zweck: Filtert die aktuell geladenen Artikel basierend auf der Benutzereingabe.
+    =========================================================== */
     filterInput.addEventListener('input', () => {
         const query = filterInput.value.toLowerCase();
         const filtered = currentItems.filter(item => item.name.toLowerCase().includes(query));
@@ -186,9 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-           Funktion: Sortierfunktion
-           Zweck: Schaltet zwischen alphabetischer Sortierung und Sortierung nach dem Ersteller (User) um.
-        =========================================================== */
+       Funktion: Sortierfunktion
+       Zweck: Schaltet zwischen alphabetischer Sortierung und Sortierung nach dem Ersteller (User) um.
+    =========================================================== */
     sortBtn.addEventListener('click', () => {
         sortMode = (sortMode === 'alphabet') ? 'user' : 'alphabet';
         if (sortMode === 'alphabet') {
@@ -207,9 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-           Funktion: updateOrder
-           Zweck: Sendet die neue Reihenfolge der Artikel an den Server, um sie zu speichern.
-        =========================================================== */
+       Funktion: updateOrder
+       Zweck: Sendet die neue Reihenfolge der Artikel an den Server, um sie zu speichern.
+    =========================================================== */
     async function updateOrder(newOrder) {
         const category = categorySelect.value;
         try {
@@ -226,10 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Fehler beim Aktualisieren der Reihenfolge:", error);
         }
     }
+
     /* ===========================================================
-           Funktionen: Drag & Drop
-           Zweck: Ermöglichen das Verschieben von Artikeln in der Liste und Aktualisieren der Reihenfolge.
-        =========================================================== */
+       Funktionen: Drag & Drop
+       Zweck: Ermöglichen das Verschieben von Artikeln in der Liste und Aktualisieren der Reihenfolge.
+    =========================================================== */
     let dragSrcEl = null;
     function handleDragStart(e) {
         dragSrcEl = this;
@@ -261,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleDragEnd() {
         this.classList.remove('dragging');
     }
-
 
     /* ===========================================================
        Event Listener: Kategorie Dropdown ändern

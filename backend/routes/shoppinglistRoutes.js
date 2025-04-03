@@ -17,7 +17,9 @@ router.get('/categories', shoppinglistController.getCategories);
 router.get('/items', shoppinglistController.getItems);
 router.post('/item', shoppinglistController.createItem);
 router.delete('/item', shoppinglistController.deleteItem);
+router.post('/toggle', shoppinglistController.toggleItemStatus);
 router.put('/item', shoppinglistController.updateItem);
+router.put('/order', shoppinglistController.updateOrder);
 router.post('/category', shoppinglistController.createCategory);
 router.delete('/category', shoppinglistController.deleteCategory);
 
