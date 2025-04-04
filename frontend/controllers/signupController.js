@@ -1,7 +1,7 @@
 /**
  * Listens for input in the password field and evaluates password strength.
  */
-import sendSignupData from "../models/signupModel";
+import sendSignupData from "../../backend/models/signupModel";
 
 document.getElementById('signup-password').addEventListener('input', function () {
     const password = this.value;
