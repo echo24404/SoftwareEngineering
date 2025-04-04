@@ -46,7 +46,7 @@ exports.showUserCalendars = (req, res) => {
 exports.showCalendar = (req, res) => {
     const { userId, calendarId } = req.params;
     const calendar = calendarModel.getCalendarById(calendarId, userId);
-    if (!calendar) return res.status(404).send('Calendar not found');
+    if (!calendar) return res.status(404).send('Kalender nicht gefunden');
 
     const owner = calendarModel.getUserById(calendar.ownerId);
     const allUsers = calendarModel.getUsers();
@@ -92,7 +92,7 @@ exports.addEvent = (req, res) => {
 
     const success = calendarModel.addEventToCalendar(calendarId, userId, { date, title });
 
-    if (!success) return res.status(404).send('Calendar not found');
+    if (!success) return res.status(404).send('Kalender nicht gefunden');
 
     res.redirect(`/calendar/${userId}/${calendarId}`);
 };
@@ -108,7 +108,7 @@ exports.deleteEvent = (req, res) => {
 
     const success = calendarModel.deleteEventFromCalendar(calendarId, userId, date, title);
 
-    if (!success) return res.status(404).send('Could not delete event');
+    if (!success) return res.status(404).send('Termin konnte nicht gelöscht werden');
 
     res.redirect(`/calendar/${userId}/${calendarId}`);
 };
