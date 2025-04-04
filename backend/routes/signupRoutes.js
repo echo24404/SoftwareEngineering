@@ -10,7 +10,7 @@ const router = express.Router();
 
 /**
  * @route GET /signup
- * @description Zeigt das Registrierungsformular an
+ * @description shows the registration page
  */
 router.get('/', (req, res) => {
     res.render('signup');

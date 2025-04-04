@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @route GET /login
- * @description Zeigt das Anmeldeformular an
+ * @description shows the authenticator page
  */
 router.get('/', (req, res) => {
     res.render('login');
