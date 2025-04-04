@@ -4,7 +4,13 @@ const sessionManager = require('../session/sessionManager');
 const {sendError, validateFields} = require("../utils/helper");
 const router = express.Router();
 
-
+/**
+ * @route GET /login
+ * @description Zeigt das Anmeldeformular an
+ */
+router.get('/', (req, res) => {
+    res.render('login');
+});
 /**
  * @route POST /api/auth/login
  * @description Authenticates a user with the provided username and password.

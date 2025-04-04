@@ -12,7 +12,7 @@ document.body.innerHTML = `
 `;
 
 // Importiere die Controller-Datei, die den Event-Listener enthält
-const { isPasswordStrong } = require('../../backend/controllers/signupController');
+const { isPasswordStrong } = require('../controllers/signupController');
 
 describe("Passwort-Validierung", () => {
     test("Akzeptiert ein starkes Passwort", () => {
