@@ -1,4 +1,4 @@
-// Warte, bis das DOM vollständig geladen ist, bevor der Code ausgeführt wird
+// Warte, bis das DOM vollständig geladen ist, bevor der Code ausgeführt wird.
 document.addEventListener('DOMContentLoaded', () => {
     // Elementreferenzen aus dem DOM
     const categorySelect = document.getElementById('category-select');
@@ -17,21 +17,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const editItemCategoryInput = document.getElementById('edit-item-category');
     const cancelEditBtn = document.getElementById('cancel-edit');
 
-    // Lokale Variablen zur Speicherung des aktuellen Zustands
+    // Lokale Variablen für den aktuellen Zustand
     let currentItems = []; // speichert aktuell geladene Artikel
-    let sortMode = 'alphabet'; // aktueller Sortiermodus: 'alphabet' oder 'user'
+    let sortMode = 'alphabet'; // möglicher Wert: 'alphabet' oder 'user'
+
+    /* ===========================================================
+       Funktion: toggleItemStatus
+       Zweck: Sendet einen POST-Request, um den "done"-Status eines Artikels zu toggeln.
+       Nach dem Toggle werden die Artikel neu geladen, damit die UI aktualisiert wird.
+    =========================================================== */
+    async function toggleItemStatus(itemName) {
+        const category = categorySelect.value;
+        try {
+            const res = await fetch('/shoppinglist/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, itemName })
+            });
+            if (!res.ok) {
+                const errorData = await res.json();
+                alert("Fehler: " + errorData.error);
+            } else {
+                loadItems(category);
+            }
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren des Status:", error);
+        }
+    }
 
     /* ===========================================================
        Funktion: loadCategories
-       Zweck: Lädt die Kategorien (Einkaufslisten) vom Server und füllt das Dropdown-Menü.
+       Zweck: Lädt die Kategorien vom Server und füllt das Dropdown-Menü.
     =========================================================== */
     async function loadCategories() {
         try {
             const res = await fetch('/shoppinglist/categories');
             const categories = await res.json();
-            // Setze das Dropdown zurück mit der Standardoption
             categorySelect.innerHTML = '<option value="">-- Auswahl --</option>';
-            // Für jede geladene Kategorie einen <option>-Eintrag erstellen
             categories.forEach(cat => {
                 const option = document.createElement('option');
                 option.value = cat;
@@ -45,10 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ===========================================================
        Funktion: loadItems
-       Zweck: Lädt die Artikel für die ausgewählte Kategorie vom Server.
+       Zweck: Lädt die Artikel der ausgewählten Kategorie vom Server.
     =========================================================== */
     async function loadItems(category) {
-        // Falls keine Kategorie ausgewählt wurde, leere die Artikelliste und die aktuelle Speicherung
         if (!category) {
             itemList.innerHTML = '';
             currentItems = [];
@@ -57,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(`/shoppinglist/items?category=${encodeURIComponent(category)}`);
             const items = await res.json();
-            currentItems = items; // speichere die geladenen Artikel
-            renderItems(items);  // rufe die Render-Funktion auf, um die Artikel darzustellen
+            currentItems = items;
+            renderItems(items);
         } catch (error) {
             console.error("Fehler beim Laden der Artikel:", error);
         }
@@ -66,16 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ===========================================================
        Funktion: renderItems
-       Zweck: Rendert die übergebenen Artikel in der Artikelliste im DOM.
+       Zweck: Rendert die Artikel in der Liste im DOM.
     =========================================================== */
     function renderItems(items) {
         itemList.innerHTML = '';
         items.forEach(item => {
-            // Erstelle ein Listenelement für jeden Artikel
             const li = document.createElement('li');
+            li.setAttribute('draggable', 'true');
             li.dataset.item = item.name;
 
-            // Erstelle und füge eine Checkbox hinzu, um den "done"-Status zu toggeln
+            // Erstelle eine Checkbox, die den "done"-Status toggelt
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.className = 'toggle-done';
@@ -85,27 +106,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             li.appendChild(checkbox);
 
-            // Erstelle ein Span für den Artikelnamen
+            // Erstelle ein Element für den Artikelnamen
             const spanName = document.createElement('span');
             spanName.className = 'item-name';
             spanName.textContent = item.name;
-            // Falls der Artikel als erledigt markiert ist, füge die CSS-Klasse hinzu, die ihn durchstreicht
             if (item.done) {
                 spanName.classList.add('item-done');
             }
             li.appendChild(spanName);
 
-            // Erstelle ein Span für die Information, welcher User den Artikel erstellt hat
+            // Erstelle ein Element, das anzeigt, welcher User den Artikel erstellt hat
             const spanCreatedBy = document.createElement('span');
             spanCreatedBy.className = 'created-by';
             spanCreatedBy.textContent = `Erstellt von User ${item.createdBy}`;
             li.appendChild(spanCreatedBy);
 
-            // Erstelle einen Container für die Aktionsbuttons (Bearbeiten & Löschen)
+            // Erstelle einen Container für Aktionsbuttons (Bearbeiten und Löschen)
             const btnContainer = document.createElement('div');
             btnContainer.className = 'btn-container';
 
-            // Erstelle den "Bearbeiten"-Button
+            // Bearbeiten-Button: öffnet das Edit-Modal
             const editBtn = document.createElement('button');
             editBtn.className = 'edit-item-btn';
             editBtn.textContent = 'Bearbeiten';
@@ -114,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             btnContainer.appendChild(editBtn);
 
-            // Erstelle den "Löschen"-Button und speichere den Artikelnamen als Datensatz
+            // Löschen-Button
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'delete-item-btn';
             deleteBtn.textContent = 'Löschen';
@@ -129,14 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
             li.addEventListener('drop', handleDrop);
             li.addEventListener('dragend', handleDragEnd);
 
-            // Füge das Listenelement der Artikelliste hinzu
             itemList.appendChild(li);
         });
     }
 
     /* ===========================================================
        Funktion: openEditModal
-       Zweck: Öffnet das Edit-Modal und füllt die Felder mit den Daten des zu bearbeitenden Artikels.
+       Zweck: Öffnet das Edit-Modal und füllt die Eingabefelder mit den Daten des zu bearbeitenden Artikels.
     =========================================================== */
     function openEditModal(item) {
         editItemNameInput.value = item.name;
@@ -153,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editModal.style.display = 'none';
     }
 
-    // Event Listener: Bearbeitungsformular absenden (Artikel aktualisieren)
+    // Event: Absenden des Bearbeitungsformulars
     editForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const category = editItemCategoryInput.value;
@@ -178,12 +197,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event Listener: Schließen des Edit-Modals bei Klick auf "Abbrechen"
+    // Event: Klick auf "Abbrechen" im Edit-Modal
     cancelEditBtn.addEventListener('click', closeEditModal);
 
     /* ===========================================================
-       Funktion: Filterfunktion
-       Zweck: Filtert die aktuell geladenen Artikel basierend auf der Benutzereingabe.
+       Event: Filterfunktion
+       Zweck: Filtert die aktuell geladenen Artikel anhand der Benutzereingabe.
     =========================================================== */
     filterInput.addEventListener('input', () => {
         const query = filterInput.value.toLowerCase();
@@ -192,8 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-       Funktion: Sortierfunktion
-       Zweck: Schaltet zwischen alphabetischer Sortierung und Sortierung nach dem Ersteller (User) um.
+       Event: Sortierfunktion
+       Zweck: Wechselt zwischen alphabetischer Sortierung und Sortierung nach dem Ersteller (User).
     =========================================================== */
     sortBtn.addEventListener('click', () => {
         sortMode = (sortMode === 'alphabet') ? 'user' : 'alphabet';
@@ -214,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ===========================================================
        Funktion: updateOrder
-       Zweck: Sendet die neue Reihenfolge der Artikel an den Server, um sie zu speichern.
+       Zweck: Sendet die neue Reihenfolge der Artikel an den Server, damit sie gespeichert wird.
     =========================================================== */
     async function updateOrder(newOrder) {
         const category = categorySelect.value;
@@ -235,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ===========================================================
        Funktionen: Drag & Drop
-       Zweck: Ermöglichen das Verschieben von Artikeln in der Liste und Aktualisieren der Reihenfolge.
+       Zweck: Ermöglicht das Verschieben von Artikeln in der Liste und aktualisiert die Reihenfolge.
     =========================================================== */
     let dragSrcEl = null;
     function handleDragStart(e) {
@@ -270,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ===========================================================
-       Event Listener: Kategorie Dropdown ändern
+       Event: Kategorie-Dropdown ändern
        Zweck: Lädt die Artikel der ausgewählten Kategorie.
     =========================================================== */
     categorySelect.addEventListener('change', () => {
@@ -279,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-       Event Listener: Neues Artikel-Formular absenden
+       Event: Neues Artikel-Formular absenden
        Zweck: Sendet einen POST-Request zum Erstellen eines neuen Artikels.
     =========================================================== */
     addItemForm.addEventListener('submit', async (e) => {
@@ -309,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-       Event Listener: Artikel löschen
+       Event: Artikel löschen
        Zweck: Sendet einen DELETE-Request zum Löschen eines Artikels.
     =========================================================== */
     itemList.addEventListener('click', async (e) => {
@@ -337,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-       Event Listener: Neues Kategorie-Formular absenden
+       Event: Neues Kategorie-Formular absenden
        Zweck: Sendet einen POST-Request zum Erstellen einer neuen Kategorie.
     =========================================================== */
     addCategoryForm.addEventListener('submit', async (e) => {
@@ -366,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ===========================================================
-       Event Listener: Kategorie löschen
+       Event: Kategorie löschen
        Zweck: Sendet einen DELETE-Request zum Löschen der aktuell ausgewählten Kategorie.
     =========================================================== */
     deleteCategoryBtn.addEventListener('click', async () => {
@@ -375,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Bitte eine Kategorie auswählen.");
             return;
         }
-        if (confirm(`Möchtest du die Kategorie "${category}" löschen? Alle darin enthaltenen Artikel gehen verloren.`)) {
+        if (confirm(`Möchtest du die Liste "${category}" löschen? Alle darin enthaltenen Artikel gehen verloren.`)) {
             try {
                 const res = await fetch('/shoppinglist/category', {
                     method: 'DELETE',
