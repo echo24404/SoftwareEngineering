@@ -125,10 +125,13 @@ describe('Shopping List Page', () => {
             .should('not.have.class', 'item-done');
     });
 
+    const category = 'Discounter';
+    const createdItemName = 'CypressTempItem';
+    const editedItemName = 'CypressTempItemEdited';
 
     it('creates a new item in the selected category', () => {
         // Wähle die Kategorie "Discounter"
-        cy.get('#category-select').select(Discounter);
+        cy.get('#category-select').select(category);
         // Gebe den neuen Artikelnamen ein und sende das Formular ab
         cy.get('#new-item-name').clear().type(createdItemName);
         cy.get('#add-item-form').submit();
@@ -138,7 +141,7 @@ describe('Shopping List Page', () => {
 
     it('edits the created item', () => {
         // Wähle erneut die Kategorie "Discounter"
-        cy.get('#category-select').select(Discounter);
+        cy.get('#category-select').select(category);
         // Öffne den Bearbeiten-Dialog für das gerade erstellte Item
         cy.get('.item-list')
             .contains(createdItemName)
@@ -156,9 +159,20 @@ describe('Shopping List Page', () => {
         cy.get('.item-list').contains(editedItemName).should('exist');
     });
 
-
-
-
-
+    it('deletes the edited item', () => {
+        // Wähle die Kategorie "Discounter"
+        cy.get('#category-select').select(category);
+        // Finde das bearbeitete Item und klicke auf den Löschen-Button
+        cy.get('.item-list')
+            .contains(editedItemName)
+            .parent('li')
+            .within(() => {
+                cy.get('.delete-item-btn').click();
+            });
+        // Simuliere die Bestätigung des Löschdialogs
+        cy.on('window:confirm', () => true);
+        // Überprüfe, dass das Item nicht mehr in der Liste vorhanden ist
+        cy.get('.item-list').contains(editedItemName).should('not.exist');
+    });
 
 });
