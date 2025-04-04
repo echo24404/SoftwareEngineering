@@ -1,31 +1,30 @@
 <header class="main-header">
-    <div class="top-bar">
+    <div class="header-container">
         <div class="logo">
-
-            <img src="/img/WG.jpg" alt="WG-App Logo" />
-            <span class="brand-name">WG-App</span>
+            <img src="/img/logo.jpg" alt="WGM8 Logo">
+            <span class="brand-name">WGM8</span>
         </div>
-        <div class="slogan">
-            <p>Dein digitaler Begleiter für ein organisiertes WG-Leben</p>
-        </div>
+        <nav class="main-nav">
+            <ul>
+                <% if (currentPage !== 'homepage') { %>
+                    <li><a href="/homepage">Home</a></li>
+                <% } %>
+                <% if (currentPage !== 'calendar') { %>
+                    <li><a href="/calendar">Kalender</a></li>
+                <% } %>
+                <% if (currentPage !== 'timetable') { %>
+                    <li><a href="/timetable">Stundenplan</a></li>
+                <% } %>
+                <% if (currentPage !== 'task') { %>
+                    <li><a href="/task">Aufgaben</a></li>
+                <% } %>
+                <% if (currentPage !== 'shoppingList') { %>
+                    <li><a href="/shoppingList">Einkaufsliste</a></li>
+                <% } %>
+                <% if (currentPage !== 'login') { %>
+                    <li><a href="/login">Anmelden</a></li>
+                <% } %>
+            </ul>
+        </nav>
     </div>
-    <nav class="main-nav">
-        <ul>
-            <% if (currentPage !== 'homepage') { %>
-                <li><a href="/homepage">Home</a></li>
-            <% } %>
-            <% if (currentPage !== 'calendar') { %>
-                <li><a href="/calendar">Kalender</a></li>
-            <% } %>
-            <% if (currentPage !== 'timetable') { %>
-                <li><a href="/timetable">Stundenplan</a></li>
-            <% } %>
-            <% if (currentPage !== 'task') { %>
-                <li><a href="/task">Aufgaben</a></li>
-            <% } %>
-            <% if (currentPage !== 'shoppingList') { %>
-                <li><a href="/shoppingList">Einkaufsliste</a></li>
-            <% } %>
-        </ul>
-    </nav>
 </header>
