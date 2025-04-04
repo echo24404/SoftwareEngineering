@@ -4,13 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/Homepage.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
+<%- include("partials/header") %>
 
-<main>
-    <h1>Willkommen in der WG-App</h1>
-    <p>Organisiere deine WG einfach und effizient!</p>
+<main class="homepage-content">
+    <section class="intro fade-in">
+        <h2>Willkommen bei WGM8</h2>
+        <p>
+            Organisiere dein WG-Leben ganz einfach – von Kalendern über Stundenpläne bis hin zu Aufgaben und Einkaufslisten.
+        </p>
+    </section>
+    <section class="features">
+        <h3>Unsere Funktionen</h3>
+        <div class="feature-list">
+            <a class="feature-item" href="#" title="Kalender (Platzhalter)">
+                <h4>Kalender</h4>
+                <p>Verwalte Termine und Ereignisse auf einen Blick.</p>
+            </a>
+            <a class="feature-item" href="#" title="Stundenplan (Platzhalter)">
+                <h4>Stundenplan</h4>
+                <p>Behalte deinen Stundenplan immer im Auge.</p>
+            </a>
+            <a class="feature-item" href="#" title="Aufgaben (Platzhalter)">
+                <h4>Aufgaben</h4>
+                <p>Organisiere deine To-Do's und bleibe produktiv.</p>
+            </a>
+            <a class="feature-item" href="#" title="Einkaufsliste (Platzhalter)">
+                <h4>Einkaufsliste</h4>
+                <p>Erstelle und teile Einkaufslisten für die WG.</p>
+            </a>
+        </div>
+    </section>
+    <section class="news">
+        <h3>Neuigkeiten</h3>
+        <article class="news-item">
+            <h4>Update Version 2.0</h4>
+            <p>Erfahre mehr über die neuen Features und Verbesserungen.</p>
+        </article>
+    </section>
 </main>
 
+<%- include("partials/footer") %>
+<script src="/js/scripts.js"></script>
 </body>
 </html>

@@ -1,0 +1,47 @@
+.main-header {
+    background: linear-gradient(135deg, #a8e6a1, #ffffff);
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+}
+
+.brand-name {
+    font-size: 2rem;
+    color: #388e3c;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav ul li a {
+    font-size: 1.1rem;
+    color: #388e3c;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    background: rgba(56, 142, 60, 0.1);
+    transform: translateY(-2px);
+}
