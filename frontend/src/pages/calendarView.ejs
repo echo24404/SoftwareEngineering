@@ -62,6 +62,7 @@
             background-color: #fff;
             border-radius: 5px;
             vertical-align: top;
+            position: relative;
         }
 
         .day-cell strong {
@@ -76,6 +77,20 @@
             border-radius: 4px;
             margin-top: 4px;
             font-size: 0.85rem;
+            position: relative;
+        }
+
+        .delete-form {
+            display: inline;
+        }
+
+        .delete-form button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-left: 5px;
         }
 
         em {
@@ -126,7 +141,15 @@
             <strong><%= new Date(day.date).getDate() %>.</strong>
             <% if (day.events.length > 0) { %>
                 <% day.events.forEach(event => { %>
-                    <div class="event"><%= event.title %></div>
+                    <div class="event">
+                        <%= event.title %>
+                        <!-- 🗑️ Delete Button -->
+                        <form class="delete-form" action="/calendar/<%= owner.id %>/<%= calendar.id %>/delete-event" method="POST">
+                            <input type="hidden" name="date" value="<%= event.date %>">
+                            <input type="hidden" name="title" value="<%= event.title %>">
+                            <button type="submit" title="Termin löschen">🗑️</button>
+                        </form>
+                    </div>
                 <% }) %>
             <% } else { %>
                 <em>–</em>

@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "cal-1743778394437",
+    "ownerId": "u1",
+    "name": "ff",
+    "sharedWith": [
+      "u1"
+    ],
+    "events": [
+      {
+        "date": "0025-04-12",
+        "title": "putzen"
+      },
+      {
+        "date": "2025-04-23",
+        "title": "putzen"
+      }
+    ],
+    "color": null
+  },
+  {
+    "id": "cal-1743779132611",
+    "ownerId": "u1",
+    "name": "FAbio",
+    "sharedWith": [
+      "u1",
+      "u2"
+    ],
+    "events": [],
+    "color": null
+  }
+]
