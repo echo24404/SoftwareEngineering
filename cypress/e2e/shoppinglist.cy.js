@@ -126,6 +126,17 @@ describe('Shopping List Page', () => {
     });
 
 
+    it('creates a new item in the selected category', () => {
+        // Wähle die Kategorie "Discounter"
+        cy.get('#category-select').select(category);
+        // Gebe den neuen Artikelnamen ein und sende das Formular ab
+        cy.get('#new-item-name').clear().type(createdItemName);
+        cy.get('#add-item-form').submit();
+        // Überprüfe, dass der Artikel in der Artikelliste erscheint
+        cy.get('.item-list').contains(createdItemName).should('exist');
+    });
+
+
 
 
 
