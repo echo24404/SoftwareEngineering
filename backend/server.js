@@ -23,6 +23,12 @@ app.use("/", indexRoutes);
 const tasksRoutes = require("./routes/tasksRoutes");
 app.use("/tasks", tasksRoutes);
 
+const signupRoutes = require("./routes/signupRoutes");
+app.use("/signup", signupRoutes);
+
+const loginRoutes = require("./routes/loginRoutes");
+app.use("/login", loginRoutes);
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
