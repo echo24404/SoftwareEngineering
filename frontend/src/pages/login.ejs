@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
-<%- include('./common/head', { title: 'Anmelden', styles: [ '/assets/css/login.css', '/assets/css/toggle.css', '/assets/css/alertBox.css' ] }) %>
+<%- include('../../public/css/login.css', '../../public/css/toggle.css', '../../public/css/alertBox.css') %>
 <body>
-<%- include('./common/header', { showString: '', logoRedirectHomepage: true })  %>
 <main>
     <div class="background-image-container"></div>
     <section class="flex-box">
@@ -27,7 +26,6 @@
         </article>
     </section>
 </main>
-<%- include('./common/footer'); %>
 <script src="/controllers/toggleController.js"></script>
 <script src="/controllers/loginController.js"></script>
 <script src="/controllers/alertBoxController.js"></script>

@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+const sessionManager = require("./session/sessionManager");
 // Body-Parser (for POST form data)
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,6 +15,9 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 // Configuration of the template engine and the views directory
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/src/pages"));
+
+// Configure session middleware
+sessionManager.configureSession(app);
 
 // Import and use the index route
 const indexRoutes = require("./routes/homepageRoutes");

@@ -29,7 +29,7 @@ async function sendSignupData(signupData) {
         await response.json();
 
         if (response.ok) {
-            window.location.href = '/index.ejs';
+            window.location.href = '/recipes';
         } else {
             showAlert("Der Benutzer konnte nicht angelegt werden. Der Benutzername existiert bereits oder die Daten konnten nicht verarbeitet werden.");
         }
