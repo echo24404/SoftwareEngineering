@@ -128,12 +128,32 @@ describe('Shopping List Page', () => {
 
     it('creates a new item in the selected category', () => {
         // Wähle die Kategorie "Discounter"
-        cy.get('#category-select').select(category);
+        cy.get('#category-select').select(Discounter);
         // Gebe den neuen Artikelnamen ein und sende das Formular ab
         cy.get('#new-item-name').clear().type(createdItemName);
         cy.get('#add-item-form').submit();
         // Überprüfe, dass der Artikel in der Artikelliste erscheint
         cy.get('.item-list').contains(createdItemName).should('exist');
+    });
+
+    it('edits the created item', () => {
+        // Wähle erneut die Kategorie "Discounter"
+        cy.get('#category-select').select(Discounter);
+        // Öffne den Bearbeiten-Dialog für das gerade erstellte Item
+        cy.get('.item-list')
+            .contains(createdItemName)
+            .parent('li')
+            .within(() => {
+                cy.get('.edit-item-btn').click();
+            });
+        // Das Edit-Modal sollte sichtbar sein
+        cy.get('#edit-modal').should('be.visible');
+        // Ändere den Artikelnamen und sende das Formular ab
+        cy.get('#edit-item-name').clear().type(editedItemName);
+        cy.get('#edit-form').submit();
+        // Das Modal sollte geschlossen sein und der neue Name sollte in der Liste erscheinen
+        cy.get('#edit-modal').should('not.be.visible');
+        cy.get('.item-list').contains(editedItemName).should('exist');
     });
 
 
