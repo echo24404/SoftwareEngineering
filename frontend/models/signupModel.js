@@ -24,11 +24,11 @@ async function sendSignupData(signupData) {
             body: formData
         });
 
-        const result = await response.json();
+        await response.json();
 
         if (response.ok) {
             if (window.location) {
-                window.location.href = '/';
+                window.location.href = '/tasks';
             }
         } else {
             showAlert("Der Benutzer konnte nicht angelegt werden. Der Benutzername existiert bereits oder die Daten konnten nicht verarbeitet werden.");
