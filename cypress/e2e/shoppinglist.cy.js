@@ -175,4 +175,39 @@ describe('Shopping List Page', () => {
         cy.get('.item-list').contains(editedItemName).should('not.exist');
     });
 
+    it('sorts items alphabetically by name', () => {
+        // Wähle die Kategorie "Discounter"
+        cy.get('#category-select').select('Discounter');
+
+        // Um sicherzustellen, dass wir im alphabetischen Modus sind, klicken wir zweimal auf den Sortier-Button.
+        // (Je nachdem, wie deine Sortierlogik implementiert ist, könnte auch ein einzelner Klick ausreichend sein.)
+        cy.get('#sort-btn').click();
+        cy.get('#sort-btn').click();
+
+        // Überprüfe, dass die Artikel alphabetisch sortiert sind.
+        cy.get('.item-list li').then(($items) => {
+            // Extrahiere die Namen aller Artikel
+            const names = [...$items].map(li => li.querySelector('.item-name').innerText.trim());
+            // Erstelle eine sortierte Kopie
+            const sortedNames = [...names].sort((a, b) => a.localeCompare(b));
+            expect(names).to.deep.equal(sortedNames);
+        });
+    });
+
+    it('filters items by a specific name', () => {
+        // Wähle die Kategorie "Discounter"
+        cy.get('#category-select').select('Discounter');
+
+        // Gib den Filtertext "Pizza" ein – angenommen, es gibt Artikel mit "Pizza" im Namen (z. B. "TK Pizza")
+        cy.get('#filter-input').clear().type('Pizza');
+
+        // Überprüfe, dass alle angezeigten Artikel den Begriff "Pizza" im Namen enthalten
+        cy.get('.item-list li').each(($el) => {
+            cy.wrap($el).find('.item-name').invoke('text').then((text) => {
+                expect(text).to.match(/Pizza/i);
+            });
+        });
+    });
+
+
 });

@@ -6,12 +6,12 @@
       "done": false
     },
     {
-      "name": "TK Pizza",
+      "name": "Plombir Eis",
       "createdBy": "1",
       "done": false
     },
     {
-      "name": "Plombir Eis",
+      "name": "TK Pizza",
       "createdBy": "1",
       "done": false
     }
@@ -66,6 +66,5 @@
       "createdBy": "1",
       "done": false
     }
-  ],
-  "CypressTestCategory": []
+  ]
 }
