@@ -4,6 +4,12 @@ const { getShoppingLists, updateShoppingLists } = require('../models/shoppinglis
 
 /**
  * Gibt alle Kategorien (Einkaufslisten) zurück.
+ *
+ * @async
+ * @function getCategories
+ * @param {Object} req - Express Request-Objekt.
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit den Kategorien.
  */
 exports.getCategories = async (req, res) => {
     try {
@@ -18,7 +24,12 @@ exports.getCategories = async (req, res) => {
 
 /**
  * Gibt die Artikel einer bestimmten Kategorie zurück.
- * Erwartet einen Query-Parameter "category".
+ *
+ * @async
+ * @function getItems
+ * @param {Object} req - Express Request-Objekt; erwartet einen Query-Parameter "category".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit den Artikeln der angegebenen Kategorie.
  */
 exports.getItems = async (req, res) => {
     const category = req.query.category;
@@ -36,10 +47,12 @@ exports.getItems = async (req, res) => {
 
 /**
  * Erstellt einen neuen Artikel in einer bestimmten Kategorie.
- * Erwartet im Body: "category" und "itemName".
- * Der Artikel erhält zusätzlich den Ersteller (userId), aktuell hardcodiert auf "1",
- * und wird mit done: false initialisiert.
- * Es wird geprüft, ob der Artikel bereits existiert.
+ *
+ * @async
+ * @function createItem
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "category" und "itemName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit dem erstellten Artikel oder einem Fehler.
  */
 exports.createItem = async (req, res) => {
     const { category, itemName } = req.body;
@@ -51,12 +64,10 @@ exports.createItem = async (req, res) => {
         if (!data[category]) {
             return res.status(404).json({ error: "Kategorie nicht gefunden" });
         }
-        // Duplikat-Prüfung
         const existing = data[category].find(item => item.name === itemName);
         if (existing) {
             return res.status(400).json({ error: "Artikel existiert bereits" });
         }
-        // Benutzer-ID: Bei Session-Integration hier ersetzen; aktuell hardcodiert
         const userId = (req.session && req.session.user && req.session.user.id) ? req.session.user.id : "1";
         const newItem = { name: itemName, createdBy: userId, done: false };
         data[category].push(newItem);
@@ -70,7 +81,12 @@ exports.createItem = async (req, res) => {
 
 /**
  * Löscht einen Artikel aus einer bestimmten Kategorie.
- * Erwartet im Body: "category" und "itemName".
+ *
+ * @async
+ * @function deleteItem
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "category" und "itemName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit einer Erfolgsmeldung oder einem Fehler.
  */
 exports.deleteItem = async (req, res) => {
     const { category, itemName } = req.body;
@@ -97,7 +113,12 @@ exports.deleteItem = async (req, res) => {
 
 /**
  * Toggle: Markiert einen Artikel als erledigt oder unerledigt.
- * Erwartet im Body: "category" und "itemName".
+ *
+ * @async
+ * @function toggleItemStatus
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "category" und "itemName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit dem aktualisierten Artikel oder einem Fehler.
  */
 exports.toggleItemStatus = async (req, res) => {
     const { category, itemName } = req.body;
@@ -124,7 +145,12 @@ exports.toggleItemStatus = async (req, res) => {
 
 /**
  * Aktualisiert einen Artikel (Bearbeiten).
- * Erwartet im Body: "category", "oldItemName" und "newItemName".
+ *
+ * @async
+ * @function updateItem
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "category", "oldItemName" und "newItemName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit dem aktualisierten Artikel oder einem Fehler.
  */
 exports.updateItem = async (req, res) => {
     const { category, oldItemName, newItemName } = req.body;
@@ -136,7 +162,6 @@ exports.updateItem = async (req, res) => {
         if (!data[category]) {
             return res.status(404).json({ error: "Kategorie nicht gefunden" });
         }
-        // Prüfen, ob neuer Name bereits existiert (außer für den aktuellen Artikel)
         const duplicate = data[category].find(item => item.name === newItemName && item.name !== oldItemName);
         if (duplicate) {
             return res.status(400).json({ error: "Artikelname existiert bereits" });
@@ -156,7 +181,12 @@ exports.updateItem = async (req, res) => {
 
 /**
  * Aktualisiert die Reihenfolge der Artikel in einer Kategorie.
- * Erwartet im Body: "category" und "newOrder" (Array von Artikelnamen in gewünschter Reihenfolge).
+ *
+ * @async
+ * @function updateOrder
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "category" und "newOrder" (Array von Artikelnamen).
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit der aktualisierten Reihenfolge oder einem Fehler.
  */
 exports.updateOrder = async (req, res) => {
     const { category, newOrder } = req.body;
@@ -191,7 +221,12 @@ exports.updateOrder = async (req, res) => {
 
 /**
  * Erstellt eine neue Kategorie (Einkaufsliste).
- * Erwartet im Body: "categoryName".
+ *
+ * @async
+ * @function createCategory
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "categoryName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit einer Erfolgsmeldung oder einem Fehler.
  */
 exports.createCategory = async (req, res) => {
     const { categoryName } = req.body;
@@ -214,7 +249,12 @@ exports.createCategory = async (req, res) => {
 
 /**
  * Löscht eine Kategorie (Einkaufsliste).
- * Erwartet im Body: "categoryName".
+ *
+ * @async
+ * @function deleteCategory
+ * @param {Object} req - Express Request-Objekt; erwartet im Body "categoryName".
+ * @param {Object} res - Express Response-Objekt.
+ * @returns {Promise<void>} - Sendet eine JSON-Antwort mit einer Erfolgsmeldung oder einem Fehler.
  */
 exports.deleteCategory = async (req, res) => {
     const { categoryName } = req.body;

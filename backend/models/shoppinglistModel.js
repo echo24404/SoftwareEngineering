@@ -5,7 +5,10 @@ const dataPath = path.join(__dirname, '../data/shoppinglist.json');
 
 /**
  * Liest die Einkaufslisten aus der JSON-Datei und gibt sie als Objekt zurück.
- * @return {Promise<Object>} Objekt mit den Einkaufslisten.
+ *
+ * @async
+ * @function getShoppingLists
+ * @returns {Promise<Object>} Ein Objekt, das die Einkaufslisten enthält.
  */
 async function getShoppingLists() {
     try {
@@ -19,8 +22,11 @@ async function getShoppingLists() {
 
 /**
  * Schreibt das gegebene Objekt in die JSON-Datei.
- * @param {Object} data - Das Einkaufslisten-Objekt.
- * @return {Promise<void>}
+ *
+ * @async
+ * @function updateShoppingLists
+ * @param {Object} data - Das Einkaufslisten-Objekt, das geschrieben werden soll.
+ * @returns {Promise<void>} Ein Promise, das aufgelöst wird, wenn der Schreibvorgang abgeschlossen ist.
  */
 async function updateShoppingLists(data) {
     try {
