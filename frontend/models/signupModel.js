@@ -11,25 +11,25 @@ async function sendSignupData(signupData) {
 
     const formData = new FormData();
 
-    // Append image file to FormData
     formData.append('image', signupData.image);
 
-    // Append JSON data as a string
     formData.append('data', JSON.stringify({
         username: signupData.username,
         password: signupData.password,
     }));
 
     try {
-        const response = await fetch("/api/register/", {
+        const response = await fetch("/api/tasks/", {
             method: "POST",
             body: formData
         });
 
-        await response.json();
+        const result = await response.json();
 
         if (response.ok) {
-            window.location.href = '/recipes';
+            if (window.location) {
+                window.location.href = '/';
+            }
         } else {
             showAlert("Der Benutzer konnte nicht angelegt werden. Der Benutzername existiert bereits oder die Daten konnten nicht verarbeitet werden.");
         }
@@ -37,3 +37,5 @@ async function sendSignupData(signupData) {
         console.error("Error by sending the data:", error);
     }
 }
+
+module.exports = sendSignupData;

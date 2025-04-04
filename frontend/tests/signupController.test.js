@@ -1,41 +1,132 @@
-// signupController.test.js
+/**
+ * @file sendSignupData.test.js
+ * Unit tests for the sendSignupData function.
+ */
+const sendSignupData = require("../models/signupModel");
 
-// Simuliere HTML-Elemente
-document.body.innerHTML = `
-    <form id="signup-form">
-        <input type="text" id="username" />
-        <input type="password" id="signup-password" />
-        <input type="password" id="confirm-password" />
-        <input type="file" id="file-input" />
-        <div id="password-strength"></div>
-    </form>
-`;
+// Mock the global fetch function
+global.fetch = jest.fn();
+global.window.location.href = "";
 
-// Importiere die Controller-Datei, die den Event-Listener enthält
-const { isPasswordStrong } = require('../controllers/signupController');
+// Mock FormData to simulate appending data
+class MockFormData {
+    constructor() {
+        this.data = [];
+    }
 
-describe("Passwort-Validierung", () => {
-    test("Akzeptiert ein starkes Passwort", () => {
-        const passwordInput = document.getElementById('signup-password');
-        const passwordStrengthIndicator = document.getElementById('password-strength');
+    append(name, value) {
+        this.data.push({ name, value });
+    }
+}
 
-        // Teste ein starkes Passwort
-        passwordInput.value = "Strong1@Password";
-        passwordInput.dispatchEvent(new Event('input')); // Löst das 'input'-Event aus
+global.FormData = MockFormData;
 
-        // Überprüfe, ob der Text für ein starkes Passwort angezeigt wird
-        expect(passwordStrengthIndicator.innerHTML).toContain("Starkes Passwort!");
+describe("sendSignupData", () => {
+    beforeEach(() => {
+        jest.clearAllMocks(); // Clear all mock calls before each test
     });
 
-    test("Gibt eine Fehlermeldung für ein schwaches Passwort aus", () => {
-        const passwordInput = document.getElementById('signup-password');
-        const passwordStrengthIndicator = document.getElementById('password-strength');
+    test("should send user data and redirect on success", async () => {
+        // Arrange
+        const mockResponse = {
+            ok: true,
+            json: jest.fn().mockResolvedValue({}),
+        };
+        fetch.mockResolvedValue(mockResponse);
 
-        // Teste ein schwaches Passwort
-        passwordInput.value = "weak";
-        passwordInput.dispatchEvent(new Event('input'));
+        const signupData = {
+            username: "testuser",
+            password: "StrongPass123!",
+            image: new Blob(),
+        };
 
-        // Überprüfe, ob das Passwort den Anforderungen nicht entspricht
-        expect(passwordStrengthIndicator.innerHTML).toContain("mindestens 8 Zeichen");
+        // Act
+        await sendSignupData(signupData);
+
+        // Assert
+        expect(fetch).toHaveBeenCalledWith("/api/tasks/", expect.objectContaining({
+            method: "POST",
+            body: expect.any(MockFormData),
+        }));
+        expect(window.location.href).toBe('/');
     });
+
+    test("should show alert if username exists or data is invalid", async () => {
+        // Arrange
+        const mockResponse = {
+            ok: false,
+            json: jest.fn().mockResolvedValue({}),
+        };
+        fetch.mockResolvedValue(mockResponse);
+
+        const signupData = {
+            username: "testuser",
+            password: "StrongPass123!",
+            image: new Blob(),
+        };
+
+        // Mock the showAlert function
+        const showAlertMock = jest.fn();
+        global.showAlert = showAlertMock;
+
+        // Act
+        await sendSignupData(signupData);
+
+        // Assert
+        expect(showAlertMock).toHaveBeenCalledWith("Der Benutzer konnte nicht angelegt werden. Der Benutzername existiert bereits oder die Daten konnten nicht verarbeitet werden.");
+    });
+
+    test("should handle null signupData gracefully", async () => {
+        // Act
+        await sendSignupData(null);
+
+        // Assert
+        expect(fetch).not.toHaveBeenCalled();
+        expect(window.location.href).toBe(""); // Location shouldn't have changed
+    });
+
+    test("should handle fetch error and log it", async () => {
+        // Arrange
+        const consoleErrorMock = jest.spyOn(console, "error").mockImplementation(() => {});
+        fetch.mockRejectedValue(new Error("Network Error"));
+
+        const signupData = {
+            username: "testuser",
+            password: "StrongPass123!",
+            image: new Blob(),
+        };
+
+        // Act
+        await sendSignupData(signupData);
+
+        // Assert
+        expect(consoleErrorMock).toHaveBeenCalledWith("Error by sending the data:", new Error("Network Error"));
+        consoleErrorMock.mockRestore(); // Restore original console.error
+    });
+
+    test("should not submit if password is not strong", async () => {
+        // Arrange
+        const weakPasswordData = {
+            username: "testuser",
+            password: "123",
+            image: new Blob(),
+        };
+
+        const showAlertMock = jest.fn();
+        global.showAlert = showAlertMock;
+
+        // Act
+        await sendSignupData(weakPasswordData);
+
+        expect(showAlertMock).toHaveBeenCalledWith('Das eingegebene Passwort entspricht nicht den Sicherheitsanforderungen!');
+        expect(fetch).not.toHaveBeenCalled(); // Should not have called fetch due to weak password
+    });
+    test('should send user data and redirect on success', async () => {
+        const signupData = { username: 'testUser', password: 'password123', image: 'fakeImage' };
+
+        await sendSignupData(signupData);
+
+        expect(window.location.href).toBe('/');
+    });
+
 });

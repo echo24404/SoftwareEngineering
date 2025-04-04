@@ -47,8 +47,6 @@ router.post('/', uploadUser.single("image"), (req, res) => {
     const newUser = {
         username,
         password: hashPassword(password),
-        recipes: [],
-        favourites: [],
         imagePath,
         joinedAt: new Date().toISOString(),
     };
